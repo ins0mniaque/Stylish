@@ -4,6 +4,9 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <Description>Stylish provides simple and elegant themes for the WPF framework.</Description>
+    <PackageTags>stylish,wpf,ui,xaml,theme,emoji</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,7 +29,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="all" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Visible="false" Pack="true" PackagePath="" />
+    <None Include="..\..\LICENSE"   Visible="false" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>
