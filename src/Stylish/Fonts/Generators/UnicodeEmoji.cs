@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
@@ -5,6 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace Stylish.Fonts.Generators;
 
+[ SuppressMessage ( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" ) ]
 public record UnicodeEmoji ( string Group, string Subgroup, string Name, string Value, string Status, double Version )
 {
     public const double LatestVersion = 15.1;

@@ -1,6 +1,6 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Security;
 using System.Text;
 
@@ -8,6 +8,7 @@ using Microsoft.CSharp;
 
 namespace Stylish.Fonts.Generators;
 
+[ SuppressMessage ( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" ) ]
 public static class EmojiGenerator
 {
     public static async Task<UnicodeEmoji [ ]> Generate(string destination, double unicodeVersion = UnicodeEmoji.LatestVersion, double emojiVersion = UnicodeEmoji.LatestVersion, CancellationToken cancellationToken = default )
