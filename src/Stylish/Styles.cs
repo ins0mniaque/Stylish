@@ -8,7 +8,7 @@ namespace Stylish;
 [ SuppressMessage ( "Design", "CA1010:Generic interface should also be implemented", Justification = "ResourceDictionary" ) ]
 public class Styles : ResourceDictionary
 {
-    private static readonly Uri Uri = new ( "pack://application:,,,/HIT.GIS.UI;component/Stylish/Stylish.xaml" );
+    private static readonly Uri Uri = new ( "pack://application:,,,/Stylish;component/Stylish.xaml" );
 
     public Styles ( )
     {
