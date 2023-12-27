@@ -2,12 +2,76 @@
 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ß="urn:stylish:schema"
 
         Title="Stylish"
+
+        FontFamily="{ß:Segoe}"
 
         Width="800" Height="450">
 
     <Grid>
+
+        <StackPanel TextElement.FontSize="24">
+            <StackPanel Orientation="Horizontal">
+                <ß:Segoe Symbol="Calculator" />
+                <ß:Segoe Fluent="StockDown" />
+                <ß:Segoe MDL2="StockDown" />
+                <ß:Segoe Fluent="Delete" />
+                <ß:Segoe MDL2="Delete" />
+                <ß:Segoe Symbol="Delete" />
+            </StackPanel>
+            <StackPanel TextElement.Foreground="DeepPink" Orientation="Horizontal">
+                <ß:Symbol Emoji="Mage_DarkSkinTone" />
+                <ß:Symbol Emoji="Man" />
+                <ß:Symbol Emoji="DarkSkinTone" />
+                <ß:Symbol Emoji="Man" Format="{ß:Segoe Emoji=DarkSkinTone, Format='{}{{0}}{0}'}" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <ß:Segoe Emoji="Mage_DarkSkinTone" />
+                <ß:Segoe Emoji="Man" />
+                <ß:Segoe Emoji="DarkSkinTone" />
+                <ß:Segoe Emoji="Man" Format="{ß:Segoe Emoji=DarkSkinTone, Format='{}{{0}}{0}'}" />
+            </StackPanel>
+            <TextBlock Text="{ß:Segoe MDL2=ViewDashboard, Format='{}{0} Magic {0}{0}{0}'}" />
+            <TextBlock>
+                <ß:Segoe Emoji="Man_DarkSkinTone" />
+                <ß:Segoe Emoji="ManInTuxedo" />
+                <ß:Segoe Emoji="DarkSkinTone" />
+                <ß:Segoe Emoji="Kiss_WomanWomanMediumSkinToneMediumDarkSkinTone" />
+                <ß:Segoe MDL2="AccidentSolid" /> Magic
+            </TextBlock>
+            <TextBlock Foreground="DeepPink">
+                <ß:Symbol Emoji="Man_DarkSkinTone" />
+                <ß:Symbol Emoji="ManInTuxedo" />
+                <ß:Symbol Emoji="DarkSkinTone" />
+                <ß:Symbol Emoji="Kiss_WomanWomanMediumSkinToneMediumDarkSkinTone" />
+                <ß:Segoe MDL2="AccidentSolid" /> Magic
+            </TextBlock>
+            <TextBlock FontFamily="{ß:Segoe}">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Text" Value="{ß:Segoe MDL2=Error, Format='{}{0} Magic {0}{0}{0}'}" />
+                        <Style.Triggers>
+                            <Trigger Property="Text" Value="{ß:Segoe MDL2=Walk}">
+                                <Setter Property="Foreground" Value="DeepPink" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Text" Value="{ß:Segoe MDL2=AccidentSolid}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <!--
+            <RichTextBox>
+                <FlowDocument>
+                    <ß:Segoe MDL2="AccidentSolid" />
+                </FlowDocument>
+            </RichTextBox>
+            -->
+            <Button Content="{ß:Segoe Symbol=AddFriend, Format='{}{0} A {0} B {0} C {0}'}" />
+        </StackPanel>
 
     </Grid>
 
