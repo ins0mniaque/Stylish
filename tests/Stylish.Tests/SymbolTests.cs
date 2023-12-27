@@ -1,52 +1,144 @@
-using System.Reflection;
 using System.Windows.Controls;
-using System.Windows.Markup;
+using System.Windows.Documents;
 
 namespace Stylish.Tests;
 
-public class SymbolTests
+public class SymbolTests : StylishTests
 {
-    static SymbolTests ( ) => Assembly.Load ( nameof ( Stylish ) );
-
     [ Fact ]
-    public Task InsertsAsInline ( ) => STA ( ( ) =>
+    public Task FormatsCorrectly ( ) => STA ( ( ) =>
     {
         var textBlock = Parse < TextBlock > (
-            $"""
+            """
+            <TextBlock Text="{ß:Symbol Emoji=GrinningFace, Format=Emoji: {0}}" />
+            """ );
+
+        Assert.Equal ( "Emoji: 😀", textBlock.Text );
+    } );
+
+    [ Fact ]
+    public Task InsertsStringAsText ( ) => STA ( ( ) =>
+    {
+        var textBlock = Parse < TextBlock > (
+            """
+            <TextBlock Text="{ß:Symbol Emoji=GrinningFace}" />
+            """ );
+
+        Assert.Equal ( "😀", textBlock.Text );
+    } );
+
+    [ Fact ]
+    public Task InsertsInline ( ) => STA ( ( ) =>
+    {
+        var textBlock = Parse < TextBlock > (
+            """
             <TextBlock>
                 <ß:Symbol Emoji="GrinningFace" />
             </TextBlock>
             """ );
 
-        Assert.Empty  ( textBlock.Text );
         Assert.Single ( textBlock.Inlines );
+        Assert.IsType < Run > ( textBlock.Inlines.FirstInline );
+        Assert.Equal  ( "😀", ( (Run) textBlock.Inlines.FirstInline ).Text );
     } );
 
-    private static T Parse < T > ( string xaml )
+    [ Fact ]
+    public Task InsertsInlineAsInlined ( ) => STA ( ( ) =>
     {
-        const string xmlns = @" xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""" +
-                             @" xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""" +
-                             @" xmlns:ß=""urn:stylish:schema""";
+        var textBlock = Parse < TextBlock > (
+            """
+            <TextBlock>
+                Emoji: <ß:Symbol Emoji="GrinningFace" />
+            </TextBlock>
+            """ );
 
-        var insertAt = xaml.IndexOfAny ( new [  ] { ' ', '\t', '\n', '/', '>' } );
+        Assert.Equal ( 2, textBlock.Inlines.Count );
+        Assert.IsType < Run > ( textBlock.Inlines.LastInline );
+        Assert.Equal ( "😀", ( (Run) textBlock.Inlines.LastInline ).Text );
+    } );
 
-        return (T) XamlReader.Parse ( string.Concat ( xaml [ ..insertAt ], xmlns, xaml [ insertAt.. ] ) );
-    }
-
-    private static async Task STA ( Action test )
+    [ Fact ]
+    public Task InsertsStringAsContent ( ) => STA ( ( ) =>
     {
-        using var semaphore = new SemaphoreSlim ( 0, 1 );
+        var contentControl = Parse < ContentControl > (
+            """
+            <ContentControl Content="{ß:Symbol Emoji=GrinningFace}" />
+            """ );
 
-        var thread = new Thread ( ( ) =>
-        {
-            test ( );
+        Assert.Equal ( "😀", contentControl.Content );
+    } );
 
-            semaphore.Release ( );
-        } );
+    [ Fact ]
+    public Task InsertsStringInContent ( ) => STA ( ( ) =>
+    {
+        var contentControl = Parse < ContentControl > (
+            """
+            <ContentControl>
+                <ß:Symbol Emoji="GrinningFace" />
+            </ContentControl>
+            """ );
 
-        thread.SetApartmentState ( ApartmentState.STA );
-        thread.Start ( );
+        Assert.Equal ( "😀", contentControl.Content );
+    } );
 
-        await semaphore.WaitAsync ( ).ConfigureAwait ( false );
-    }
+    [ Fact ]
+    public Task InsertsTextBlockInPanel ( ) => STA ( ( ) =>
+    {
+        var stackPanel = Parse < StackPanel > (
+            """
+            <StackPanel>
+                <ß:Symbol Emoji="GrinningFace" />
+            </StackPanel>
+            """ );
+
+        Assert.Single ( stackPanel.Children );
+        Assert.IsType < TextBlock > ( stackPanel.Children [ 0 ] );
+
+        var textBlock = (TextBlock) stackPanel.Children [ 0 ];
+
+        Assert.Single ( textBlock.Inlines );
+        Assert.IsType < Run > ( textBlock.Inlines.FirstInline );
+        Assert.Equal  ( "😀", ( (Run) textBlock.Inlines.FirstInline ).Text );
+    } );
+
+    [ Fact ]
+    public Task IsValidAsSetterValue ( ) => STA ( ( ) =>
+    {
+        var textBlock = Parse < TextBlock > (
+            """
+            <TextBlock>
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Text" Value="{ß:Symbol Emoji=GrinningFace}" />
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            """ );
+
+        Assert.Single ( textBlock.Inlines );
+        Assert.IsType < Run > ( textBlock.Inlines.FirstInline );
+        Assert.Equal  ( "😀", ( (Run) textBlock.Inlines.FirstInline ).Text );
+    } );
+
+    [ Fact ]
+    public Task IsValidAsTriggerValue ( ) => STA ( ( ) =>
+    {
+        var textBlock = Parse < TextBlock > (
+            """
+            <TextBlock>
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Tag" Value="{ß:Symbol Emoji=GrinningFace}" />
+                        <Style.Triggers>
+                            <Trigger Property="Tag" Value="{ß:Symbol Emoji=GrinningFace}">
+                                <Setter Property="Text" Value="Triggered" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            """ );
+
+        Assert.Equal ( "Triggered", textBlock.Text );
+    } );
 }
