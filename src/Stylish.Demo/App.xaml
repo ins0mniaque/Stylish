@@ -1,0 +1,20 @@
+﻿<Application x:Class="Stylish.Demo.App"
+
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ß="urn:stylish:schema"
+
+             StartupUri="MainWindow.xaml">
+
+    <Application.Resources>
+        <ß:ThemeResourceDictionary>
+            <ß:ThemeResourceDictionary.Theme>
+                <ß:BaseTheme />
+            </ß:ThemeResourceDictionary.Theme>
+            <ResourceDictionary.MergedDictionaries>
+                <ß:Styles />
+            </ResourceDictionary.MergedDictionaries>
+        </ß:ThemeResourceDictionary>
+    </Application.Resources>
+
+</Application>
