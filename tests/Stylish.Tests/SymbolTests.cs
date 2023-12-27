@@ -11,7 +11,6 @@ public class SymbolTests
     [ Fact ]
     public Task InsertsAsInline ( ) => STA ( ( ) =>
     {
-        var symbol = new Symbol ( );
         var textBlock = Parse < TextBlock > (
             $"""
             <TextBlock>

@@ -1,4 +1,4 @@
-namespace Stylish.Tests;
+namespace Stylish.Emoji.Tests;
 
 public class EmojiEncodingTests
 {
