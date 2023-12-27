@@ -3,9 +3,10 @@ using System.Windows.Documents;
 
 namespace Stylish.Tests;
 
+[ TestClass ]
 public class SymbolTests : StylishTests
 {
-    [ Fact ]
+    [ TestMethod ]
     public Task FormatsCorrectly ( ) => STA ( ( ) =>
     {
         var textBlock = Parse < TextBlock > (
@@ -13,10 +14,10 @@ public class SymbolTests : StylishTests
             <TextBlock Text="{ß:Symbol Emoji=GrinningFace, Format=Emoji: {0}}" />
             """ );
 
-        Assert.Equal ( "Emoji: 😀", textBlock.Text );
+        Assert.AreEqual ( "Emoji: 😀", textBlock.Text );
     } );
 
-    [ Fact ]
+    [ TestMethod ]
     public Task InsertsStringAsText ( ) => STA ( ( ) =>
     {
         var textBlock = Parse < TextBlock > (
@@ -24,10 +25,10 @@ public class SymbolTests : StylishTests
             <TextBlock Text="{ß:Symbol Emoji=GrinningFace}" />
             """ );
 
-        Assert.Equal ( "😀", textBlock.Text );
+        Assert.AreEqual ( "😀", textBlock.Text );
     } );
 
-    [ Fact ]
+    [ TestMethod ]
     public Task InsertsInline ( ) => STA ( ( ) =>
     {
         var textBlock = Parse < TextBlock > (
@@ -37,12 +38,12 @@ public class SymbolTests : StylishTests
             </TextBlock>
             """ );
 
-        Assert.Single ( textBlock.Inlines );
-        Assert.IsType < Run > ( textBlock.Inlines.FirstInline );
-        Assert.Equal  ( "😀", ( (Run) textBlock.Inlines.FirstInline ).Text );
+        Assert.AreEqual ( 1, textBlock.Inlines.Count );
+        Assert.IsInstanceOfType < Run > ( textBlock.Inlines.FirstInline );
+        Assert.AreEqual ( "😀", ( (Run) textBlock.Inlines.FirstInline ).Text );
     } );
 
-    [ Fact ]
+    [ TestMethod ]
     public Task InsertsInlineAsInlined ( ) => STA ( ( ) =>
     {
         var textBlock = Parse < TextBlock > (
@@ -52,12 +53,12 @@ public class SymbolTests : StylishTests
             </TextBlock>
             """ );
 
-        Assert.Equal ( 2, textBlock.Inlines.Count );
-        Assert.IsType < Run > ( textBlock.Inlines.LastInline );
-        Assert.Equal ( "😀", ( (Run) textBlock.Inlines.LastInline ).Text );
+        Assert.AreEqual ( 2, textBlock.Inlines.Count );
+        Assert.IsInstanceOfType < Run > ( textBlock.Inlines.LastInline );
+        Assert.AreEqual ( "😀", ( (Run) textBlock.Inlines.LastInline ).Text );
     } );
 
-    [ Fact ]
+    [ TestMethod ]
     public Task InsertsStringAsContent ( ) => STA ( ( ) =>
     {
         var contentControl = Parse < ContentControl > (
@@ -65,10 +66,10 @@ public class SymbolTests : StylishTests
             <ContentControl Content="{ß:Symbol Emoji=GrinningFace}" />
             """ );
 
-        Assert.Equal ( "😀", contentControl.Content );
+        Assert.AreEqual ( "😀", contentControl.Content );
     } );
 
-    [ Fact ]
+    [ TestMethod ]
     public Task InsertsStringInContent ( ) => STA ( ( ) =>
     {
         var contentControl = Parse < ContentControl > (
@@ -78,10 +79,10 @@ public class SymbolTests : StylishTests
             </ContentControl>
             """ );
 
-        Assert.Equal ( "😀", contentControl.Content );
+        Assert.AreEqual ( "😀", contentControl.Content );
     } );
 
-    [ Fact ]
+    [ TestMethod ]
     public Task InsertsTextBlockInPanel ( ) => STA ( ( ) =>
     {
         var stackPanel = Parse < StackPanel > (
@@ -91,17 +92,17 @@ public class SymbolTests : StylishTests
             </StackPanel>
             """ );
 
-        Assert.Single ( stackPanel.Children );
-        Assert.IsType < TextBlock > ( stackPanel.Children [ 0 ] );
+        Assert.AreEqual ( 1, stackPanel.Children.Count );
+        Assert.IsInstanceOfType < TextBlock > ( stackPanel.Children [ 0 ] );
 
         var textBlock = (TextBlock) stackPanel.Children [ 0 ];
 
-        Assert.Single ( textBlock.Inlines );
-        Assert.IsType < Run > ( textBlock.Inlines.FirstInline );
-        Assert.Equal  ( "😀", ( (Run) textBlock.Inlines.FirstInline ).Text );
+        Assert.AreEqual ( 1, textBlock.Inlines.Count );
+        Assert.IsInstanceOfType < Run > ( textBlock.Inlines.FirstInline );
+        Assert.AreEqual ( "😀", ( (Run) textBlock.Inlines.FirstInline ).Text );
     } );
 
-    [ Fact ]
+    [ TestMethod ]
     public Task IsValidAsSetterValue ( ) => STA ( ( ) =>
     {
         var textBlock = Parse < TextBlock > (
@@ -115,12 +116,12 @@ public class SymbolTests : StylishTests
             </TextBlock>
             """ );
 
-        Assert.Single ( textBlock.Inlines );
-        Assert.IsType < Run > ( textBlock.Inlines.FirstInline );
-        Assert.Equal  ( "😀", ( (Run) textBlock.Inlines.FirstInline ).Text );
+        Assert.AreEqual ( 1, textBlock.Inlines.Count );
+        Assert.IsInstanceOfType < Run > ( textBlock.Inlines.FirstInline );
+        Assert.AreEqual ( "😀", ( (Run) textBlock.Inlines.FirstInline ).Text );
     } );
 
-    [ Fact ]
+    [ TestMethod ]
     public Task IsValidAsTriggerValue ( ) => STA ( ( ) =>
     {
         var textBlock = Parse < TextBlock > (
@@ -139,6 +140,6 @@ public class SymbolTests : StylishTests
             </TextBlock>
             """ );
 
-        Assert.Equal ( "Triggered", textBlock.Text );
+        Assert.AreEqual ( "Triggered", textBlock.Text );
     } );
 }
