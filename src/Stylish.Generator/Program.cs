@@ -1,3 +1,3 @@
-var emojis = await Stylish.Fonts.Generators.EmojiGenerator.Generate ( "..\\..\\..\\..\\Stylish\\Fonts" ).ConfigureAwait ( false );
+var emojis = await Stylish.Generator.Emoji.EmojiGenerator.Generate ( "..\\..\\..\\..\\Stylish\\Fonts" ).ConfigureAwait ( false );
 
 Console.WriteLine ( $"Generated { emojis.Length } emojis." );

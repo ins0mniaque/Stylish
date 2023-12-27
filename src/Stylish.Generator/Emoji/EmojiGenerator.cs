@@ -1,12 +1,11 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.IO;
 using System.Security;
 using System.Text;
 
 using Microsoft.CSharp;
 
-namespace Stylish.Fonts.Generators;
+namespace Stylish.Generator.Emoji;
 
 [ SuppressMessage ( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" ) ]
 public static class EmojiGenerator
@@ -81,12 +80,12 @@ public static class EmojiGenerator
 
         foreach (var emoji in emojis)
         {
-            if ( EmojiEncoding.Encode(emoji.Value) is not { } code )
+            if ( Fonts.EmojiEncoding.Encode(emoji.Value) is not { } code )
                 throw new InvalidOperationException ( $"{emoji.Name}: {emoji.Value} (Length: {emoji.Value.Length}) failed to encode." );
 
-            var decoded = EmojiEncoding.Decode (code);
+            var decoded = Fonts.EmojiEncoding.Decode (code);
 
-            if ( decoded != EmojiEncoding.SetVariant ( emoji.Value, Variant.None ) )
+            if ( decoded != Fonts.EmojiEncoding.SetVariant ( emoji.Value, Fonts.Variant.None ) )
                 throw new InvalidOperationException ( $"{emoji.Name}: {emoji.Value} (Length: { emoji.Value.Length}) failed to decode. Decoded to { decoded } (Length: {decoded.Length})." );
 
             if (emoji.Group != lastGroup)
