@@ -308,11 +308,31 @@
         <Setter Property="Template"   Value="{StaticResource Spinner.Template}" />
     </Style>
 
+    <ControlTemplate x:Key="Window.Template" TargetType="Window">
+        <AdornerDecorator>
+            <Border Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    Padding="{TemplateBinding Padding}">
+                <ContentPresenter x:Name="ContentPresenter" />
+            </Border>
+        </AdornerDecorator>
+    </ControlTemplate>
+
+    <Style x:Key="Window.Style" TargetType="Window">
+        <Setter Property="Background"    Value="{DynamicResource {x:Static ß:SystemTheme.WindowKey}}"     />
+        <Setter Property="Foreground"    Value="{DynamicResource {x:Static ß:SystemTheme.WindowTextKey}}" />
+        <Setter Property="ß:Window.Mode" Value="{DynamicResource {x:Static ß:SystemTheme.ModeKey}}"       />
+        <Setter Property="Template"      Value="{StaticResource Window.Template}" />
+    </Style>
+
     <Style TargetType="Button"       BasedOn="{StaticResource Button.Style}"       />
     <Style TargetType="RepeatButton" BasedOn="{StaticResource Button.Style}"       />
     <Style TargetType="ToggleButton" BasedOn="{StaticResource Button.Style}"       />
     <Style TargetType="CheckBox"     BasedOn="{StaticResource CheckBox.Style}"     />
     <Style TargetType="Expander"     BasedOn="{StaticResource Expander.Style}"     />
     <Style TargetType="ItemsControl" BasedOn="{StaticResource ItemsControl.Style}" />
+    <Style TargetType="Window"       BasedOn="{StaticResource Window.Style}"       />
+    <Style TargetType="ß:Window"     BasedOn="{StaticResource Window.Style}"       />
 
 </ResourceDictionary>

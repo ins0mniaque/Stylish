@@ -5,28 +5,44 @@ using Stylish.Interop;
 
 namespace Stylish;
 
-public static class Setting
+public class Window : System.Windows.Window
 {
-    [ AttachedPropertyBrowsableForType ( typeof ( Window ) ) ]
-    public static Mode GetMode ( this Window window )
+    static Window ( )
+    {
+        DefaultStyleKeyProperty.OverrideMetadata ( typeof ( Window ), new FrameworkPropertyMetadata ( typeof ( Window ) ) );
+    }
+
+    public Window ( )
+    {
+        SetResourceReference ( StyleProperty, typeof ( Window ) );
+    }
+
+    [ AttachedPropertyBrowsableForType ( typeof ( System.Windows.Window ) ) ]
+    public static Mode GetMode ( System.Windows.Window window )
     {
         ArgumentNullException.ThrowIfNull ( window );
 
         return (Mode) window.GetValue ( ModeProperty );
     }
 
-    public static void SetMode ( this Window window, Mode mode )
+    public static void SetMode ( System.Windows.Window window, Mode mode )
     {
         ArgumentNullException.ThrowIfNull ( window );
 
         window.SetValue ( ModeProperty, mode );
     }
 
-    public static readonly DependencyProperty ModeProperty = DependencyProperty.RegisterAttached ( "Mode", typeof ( Mode ), typeof ( Setting ), new ( Mode.Light, OnModeChanged ) );
+    public Mode Mode
+    {
+        get => (Mode) GetValue ( ModeProperty );
+        set => SetValue ( ModeProperty, value );
+    }
+
+    public static readonly DependencyProperty ModeProperty = DependencyProperty.RegisterAttached ( nameof ( Mode ), typeof ( Mode ), typeof ( Window ), new ( Mode.Light, OnModeChanged ) );
 
     private static void OnModeChanged ( DependencyObject d, DependencyPropertyChangedEventArgs e )
     {
-        var window = (Window) d;
+        var window = (System.Windows.Window) d;
         var hwnd   = new WindowInteropHelper ( window ).Handle;
         var dark   = e.NewValue is Mode.Dark;
 
@@ -41,7 +57,7 @@ public static class Setting
 
         static void SetMode ( object? sender, EventArgs e )
         {
-            var window = (Window) sender!;
+            var window = (System.Windows.Window) sender!;
             var hwnd   = new WindowInteropHelper ( window ).Handle;
             var dark   = GetMode ( window ) is Mode.Dark;
 
@@ -52,26 +68,32 @@ public static class Setting
         }
     }
 
-    [ AttachedPropertyBrowsableForType ( typeof ( Window ) ) ]
-    public static Material GetMaterial ( this Window window )
+    [ AttachedPropertyBrowsableForType ( typeof ( System.Windows.Window ) ) ]
+    public static Material GetMaterial ( System.Windows.Window window )
     {
         ArgumentNullException.ThrowIfNull ( window );
 
         return (Material) window.GetValue ( MaterialProperty );
     }
 
-    public static void SetMaterial ( this Window window, Material material )
+    public static void SetMaterial ( System.Windows.Window window, Material material )
     {
         ArgumentNullException.ThrowIfNull ( window );
 
         window.SetValue ( MaterialProperty, material );
     }
 
-    public static readonly DependencyProperty MaterialProperty = DependencyProperty.RegisterAttached ( "Material", typeof ( Material ), typeof ( Setting ), new ( Material.Auto, OnMaterialChanged ) );
+    public Material Material
+    {
+        get => (Material) GetValue ( MaterialProperty );
+        set => SetValue ( MaterialProperty, value );
+    }
+
+    public static readonly DependencyProperty MaterialProperty = DependencyProperty.RegisterAttached ( nameof ( Material ), typeof ( Material ), typeof ( Window ), new ( Material.Auto, OnMaterialChanged ) );
 
     private static void OnMaterialChanged ( DependencyObject d, DependencyPropertyChangedEventArgs e )
     {
-        var window = (Window) d;
+        var window = (System.Windows.Window) d;
         var hwnd   = new WindowInteropHelper ( window ).Handle;
 
         if ( hwnd is not 0 )
@@ -81,7 +103,7 @@ public static class Setting
 
         static void SetSystemBackdropType ( object? sender, EventArgs e )
         {
-            var window = (Window) sender!;
+            var window = (System.Windows.Window) sender!;
             var hwnd   = new WindowInteropHelper ( window ).Handle;
 
             window.SourceInitialized -= SetSystemBackdropType;
