@@ -7,16 +7,17 @@ using System.Windows.Documents;
 using System.Windows.Media;
 
 using Stylish.Fonts;
+using Stylish.Unicode;
 
 namespace Stylish;
 
 public class Segoe : Symbol, ISupportInitialize
 {
-    private const string FontName = "Segoe UI";
-    private const string EmojiFontName = "Segoe UI Emoji";
+    private const string FontName       = "Segoe UI";
+    private const string EmojiFontName  = "Segoe UI Emoji";
     private const string FluentFontName = "Segoe Fluent Icons";
     private const string MDL2FontName   = "Segoe MDL2 Assets";
-    private const string SymbolFontName     = "Segoe UI Symbol";
+    private const string SymbolFontName = "Segoe UI Symbol";
 
     static Segoe ( )
     {

@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 
-namespace Stylish.Generator.Emoji;
+namespace Stylish.Unicode;
 
 [ SuppressMessage ( "Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>" ) ]
 public record UnicodeEmoji ( string Group, string Subgroup, string Name, string Value, string Status, double Version )

@@ -7,6 +7,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 
 using Stylish.Fonts;
+using Stylish.Unicode;
 
 namespace Stylish;
 

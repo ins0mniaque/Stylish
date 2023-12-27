@@ -1,4 +1,4 @@
-namespace Stylish.Emoji.Tests;
+namespace Stylish.Unicode.Tests;
 
 [ TestClass ]
 public class EmojiEncodingTests
@@ -5042,14 +5042,14 @@ public class EmojiEncodingTests
     {
         Assert.IsNotNull ( emoji );
 
-        if ( Fonts.EmojiEncoding.Encode ( emoji ) is not { } code )
+        if ( EmojiEncoding.Encode ( emoji ) is not { } code )
         {
             Assert.Fail ( $"{ name } ({ status }): \"{ emoji }\" (Length: { emoji.Length }) failed to encode." );
             return;
         }
 
-        var decoded     = Fonts.EmojiEncoding.Decode     ( code );
-        var variantless = Fonts.EmojiEncoding.SetVariant ( emoji, Fonts.Variant.None );
+        var decoded     = EmojiEncoding.Decode     ( code );
+        var variantless = EmojiEncoding.SetVariant ( emoji, Variant.None );
 
         if ( decoded != variantless )
             Assert.Fail ( $"{ name } ({ status }): \"{ emoji }\" (Length: { emoji.Length }) failed to decode. Decoded as \"{ decoded }\" (Length: { decoded.Length })." );

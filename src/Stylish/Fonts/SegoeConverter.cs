@@ -1,6 +1,8 @@
 using System.Runtime.CompilerServices;
 using System.Text;
 
+using Stylish.Unicode;
+
 namespace Stylish.Fonts;
 
 public static class SegoeConverter

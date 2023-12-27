@@ -1,4 +1,4 @@
-namespace Stylish.Fonts;
+namespace Stylish.Unicode;
 
 public enum Variant
 {

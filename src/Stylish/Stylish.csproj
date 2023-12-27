@@ -34,6 +34,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Stylish.Unicode.Emoji\Stylish.Unicode.Emoji.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\..\README.md" Visible="false" Pack="true" PackagePath="" />
     <None Include="..\..\LICENSE"   Visible="false" Pack="true" PackagePath="" />
   </ItemGroup>

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <CLSCompliant>false</CLSCompliant>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Stylish\Stylish.csproj" />
+    <ProjectReference Include="..\..\src\Stylish.Unicode.Emoji\Stylish.Unicode.Emoji.csproj" />
   </ItemGroup>
 
 </Project>
