@@ -44,12 +44,24 @@ public static class EmojiEncoding
     {
         ArgumentNullException.ThrowIfNull ( emoji );
 
-        emoji = emoji.TrimEnd ( (char) Variant.Monochrome, (char) Variant.Color );
+        var encoded = (Span < char >) stackalloc char [ emoji.Length * 2 ];
+        var length  = 0;
+
+        for ( var index = 0; index < emoji.Length; index++ )
+        {
+            var code = emoji [ index ];
+
+            if ( index > 0 && code is ZeroWidthJoiner or CombiningEnclosingKeycap && variant is Variant.Monochrome or Variant.Color )
+                encoded [ length++ ] = (char) variant;
+
+            if ( code is not EmojiPresentationSelector and not TextPresentationSelector )
+                encoded [ length++ ] = code;
+        }
 
         if ( variant is Variant.Monochrome or Variant.Color )
-            return emoji + (char) variant;
+            encoded [ length++ ] = (char) variant;
 
-        return emoji;
+        return new string ( encoded [ ..length ] );
     }
 
     public static unsafe long? Encode ( string emoji )
@@ -59,27 +71,26 @@ public static class EmojiEncoding
         const int RegionalFlagCodePoint = UnicodePlane1  << 16 | RegionalFlag;
         const int CancelTagCodePoint    = UnicodePlane14 << 16 | CancelTag;
 
-        var encoded = (Span < char >) stackalloc char [ 5 ];
+        const int CodeSize = sizeof ( long ) / sizeof ( char );
+
+        var encoded = (Span < char >) stackalloc char [ CodeSize ];
         var length  = 0;
 
         for ( var index = 0; index < emoji.Length; index += char.IsSurrogatePair(emoji, index) ? 2 : 1 )
         {
-            if ( length >= 5 )
+            if ( length > CodeSize )
                 return null;
 
             var codepoint = char.ConvertToUtf32(emoji, index);
 
             if ( length is 0 && codepoint is RegionalFlagCodePoint && emoji.Length > 4 )
             {
-                if ( char.IsSurrogatePair(emoji, emoji.Length - 2) && char.ConvertToUtf32(emoji, emoji.Length - 2) is CancelTagCodePoint )
+                if ( char.IsSurrogatePair ( emoji, emoji.Length - 2 ) && char.ConvertToUtf32 ( emoji, emoji.Length - 2 ) is CancelTagCodePoint )
                     return EncodeBase64 ( emoji );
             }
 
             Pack ( encoded, ref length, codepoint );
         }
-
-        if ( encoded [ length - 1 ] is EmojiPresentationSelector or TextPresentationSelector )
-            length--;
 
         return length switch
         {
@@ -99,31 +110,36 @@ public static class EmojiEncoding
         if ( ( emoji & Base64BitMask ) is RegionalFlagBitMask )
             return DecodeBase64 ( emoji );
 
-        var unpacked = (Span < char >) stackalloc char [ 20 ];
-        var length   = 0;
+        const int CodeSize    = sizeof ( long ) / sizeof ( char );
+        const int UnpackSize  = 6;
+        const int VariantSize = sizeof ( char );
+        const int DecodeSize  = CodeSize * UnpackSize + VariantSize;
 
-        Unpack ( unpacked, ref length, (char) ( emoji >> 48 ) );
-        Unpack ( unpacked, ref length, (char) ( emoji >> 32 ) );
-        Unpack ( unpacked, ref length, (char) ( emoji >> 16 ) );
-        Unpack ( unpacked, ref length, (char)   emoji );
+        var decoded = (Span < char >) stackalloc char [ DecodeSize ];
+        var length  = 0;
 
-        var decoded = (Span < char >) stackalloc char [ 20 ];
-        var length2 = 0;
+        Unpack ( decoded, ref length, (char) ( emoji >> 48 ), variant );
+        Unpack ( decoded, ref length, (char) ( emoji >> 32 ), variant );
+        Unpack ( decoded, ref length, (char) ( emoji >> 16 ), variant );
+        Unpack ( decoded, ref length, (char)   emoji,         variant );
+        Unpack ( decoded, ref length,                         variant );
+
+        const int Utf16Size = DecodeSize;
+
+        var utf16       = (Span < char >) stackalloc char [ Utf16Size ];
+        var utf16Length = 0;
 
         for ( var index = 0; index < length; index++ )
         {
-            var high = unpacked [ index ];
+            var high = decoded [ index ];
 
             if ( high is UnicodePlane1 )
-                EncodeToUtf16 ( decoded, ref length2, high << 16 | unpacked [ ++index ] );
+                EncodeToUtf16 ( utf16, ref utf16Length, high << 16 | decoded [ ++index ] );
             else
-                EncodeToUtf16 ( decoded, ref length2, high );
+                EncodeToUtf16 ( utf16, ref utf16Length, high );
         }
 
-        if ( variant is Variant.Color or Variant.Monochrome )
-            EncodeToUtf16 ( decoded, ref length2, (int) variant );
-
-        return new string ( decoded [ ..length2 ] );
+        return new string ( utf16 [ ..utf16Length ] );
     }
 
     private static unsafe long? EncodeBase64 ( string emoji )
@@ -132,12 +148,18 @@ public static class EmojiEncoding
         const int Plane14CodePoint        = UnicodePlane14 << 16;
         const int CancelTagCodePoint      = UnicodePlane14 << 16 | CancelTag;
 
-        var encoded = (Span < byte >) stackalloc byte [ 10 ];
-        var length  = 2;
+        const int CodeSize          = sizeof ( long );
+        const int PrefixSize        = sizeof ( char );
+        const int EncodedBase64Size = CodeSize - PrefixSize;
+        const int DecodedBase64Size = EncodedBase64Size * 4 / 3;
+        const int EncodeSize        = PrefixSize + DecodedBase64Size;
+
+        var encoded = (Span < byte >) stackalloc byte [ EncodeSize ];
+        var length  = PrefixSize;
 
         for ( var index = 0; index < emoji.Length; index += char.IsSurrogatePair(emoji, index) ? 2 : 1 )
         {
-            if ( length >= 10 )
+            if ( length > EncodeSize )
                 return null;
 
             var codepoint = char.ConvertToUtf32(emoji, index);
@@ -159,18 +181,18 @@ public static class EmojiEncoding
 
         encoded [ length.. ].Fill ( Base64MaxValue );
 
-        var base64 = encoded [ 2.. ].ToArray ( );
+        var base64 = encoded [ PrefixSize.. ].ToArray ( );
 
-        Base64.DecodeFromUtf8InPlace ( encoded [ 2.. ], out length );
+        Base64.DecodeFromUtf8InPlace ( encoded [ PrefixSize.. ], out length );
 
-        encoded [ (length+2)..8 ].Clear ( );
+        encoded [ ( PrefixSize + length )..CodeSize ].Clear ( );
 
-        var e = MemoryMarshal.Read < long > (encoded);
+        var code = MemoryMarshal.Read < long > ( encoded );
 
-        if (BitConverter.IsLittleEndian)
-            return BinaryPrimitives.ReverseEndianness(e);
+        if ( BitConverter.IsLittleEndian )
+            return BinaryPrimitives.ReverseEndianness ( code );
 
-        return e;
+        return code;
     }
 
     private static unsafe string DecodeBase64 ( long emoji )
@@ -179,31 +201,41 @@ public static class EmojiEncoding
         const int Plane14CodePoint   = UnicodePlane14 << 16;
         const int CancelTagCodePoint = UnicodePlane14 << 16 | CancelTag;
 
-        var unpacked = (Span < byte >) stackalloc byte [ 11 ];
+        const int CodeSize          = sizeof ( long );
+        const int PrefixSize        = sizeof ( char );
+        const int EncodedBase64Size = CodeSize - PrefixSize;
+        const int DecodedBase64Size = EncodedBase64Size * 4 / 3;
+        const int Terminator        = sizeof ( byte );
+        const int DecodeSize        = PrefixSize + DecodedBase64Size + Terminator;
 
-        if (BitConverter.IsLittleEndian)
-            emoji = BinaryPrimitives.ReverseEndianness(emoji);
+        var decoded = (Span < byte >) stackalloc byte [ DecodeSize ];
 
-        MemoryMarshal.Write ( unpacked, ref emoji );
+        if ( BitConverter.IsLittleEndian )
+            emoji = BinaryPrimitives.ReverseEndianness ( emoji );
 
-        var base64 = unpacked [ 2.. ];
+        MemoryMarshal.Write ( decoded, ref emoji );
 
-        Base64.EncodeToUtf8InPlace ( base64, 6, out _ );
+        var base64 = decoded [ PrefixSize.. ];
 
-        base64 [ 8 ] = Base64MaxValue;
+        Base64.EncodeToUtf8InPlace ( base64, EncodedBase64Size, out _ );
+
+        base64 [ CodeSize ] = Base64MaxValue;
+
+        const int Utf16RuneSize = sizeof ( int ) / sizeof ( char );
+        const int Utf16Size     = DecodeSize * Utf16RuneSize;
+
+        var utf16       = (Span < char >) stackalloc char [ Utf16Size ];
+        var utf16Length = 0;
+
+        EncodeToUtf16 ( utf16, ref utf16Length, Plane1CodePoint | decoded [ 0 ] << 8 | decoded [ 1 ] );
+
         var base64Length = base64.IndexOf ( Base64MaxValue );
-
-        var decoded = (Span < char >) stackalloc char [ 20 ];
-        var length2 = 0;
-
-        EncodeToUtf16 ( decoded, ref length2, Plane1CodePoint | unpacked [ 0 ] << 8 | unpacked [ 1 ] );
-
         for ( var index = 0; index < base64Length; index++ )
-            EncodeToUtf16 ( decoded, ref length2, Plane14CodePoint | base64 [ index ] );
+            EncodeToUtf16 ( utf16, ref utf16Length, Plane14CodePoint | base64 [ index ] );
 
-        EncodeToUtf16 ( decoded, ref length2, CancelTagCodePoint );
+        EncodeToUtf16 ( utf16, ref utf16Length, CancelTagCodePoint );
 
-        return new string ( decoded [ ..length2 ] );
+        return new string ( utf16 [ ..utf16Length ] );
     }
 
     private static void Pack ( Span < char > encoded, ref int length, int codepoint )
@@ -226,7 +258,7 @@ public static class EmojiEncoding
                 else if ( previous is Woman  ) previous = (char) ( LightSkinWoman  + ( code - LightSkinTone ) );
                 else                           encoded [ length++ ] = code;
             }
-            else if ( code is not ZeroWidthJoiner )
+            else if ( code is not ZeroWidthJoiner and not EmojiPresentationSelector and not TextPresentationSelector )
                 encoded [ length++ ] = code;
         }
         else
@@ -236,10 +268,18 @@ public static class EmojiEncoding
         }
     }
 
-    private static void Unpack ( Span < char > decoded, ref int length, char code )
+    private static void Unpack ( Span < char > decoded, ref int length, char code, Variant variant )
     {
-        if ( length > 0 && IsZeroWidthJoined ( code ) )
-            decoded [ length++ ] = ZeroWidthJoiner;
+        if ( length > 0 )
+        {
+            var isZeroWidthJoined = IsZeroWidthJoined ( code );
+
+            if ( variant is Variant.Color or Variant.Monochrome && ( isZeroWidthJoined || code is CombiningEnclosingKeycap ) )
+                decoded [ length++ ] = (char) variant;
+
+            if ( isZeroWidthJoined )
+                decoded [ length++ ] = ZeroWidthJoiner;
+        }
 
         if ( code is not EmojiPresentationSelector or TextPresentationSelector && ( code & HighBit ) is not 0 )
         {
@@ -271,6 +311,12 @@ public static class EmojiEncoding
             decoded [ length++ ] = code;
     }
 
+    private static void Unpack ( Span < char > decoded, ref int length, Variant variant )
+    {
+        if ( length is 0 || IsZeroWidthJoined ( decoded [ length ] ) && variant is Variant.Color or Variant.Monochrome )
+            decoded [ length++ ] = (char) variant;
+    }
+
     [ MethodImpl ( MethodImplOptions.AggressiveInlining ) ]
     private static void EncodeToUtf16 ( Span < char > destination, ref int length, int codepoint )
     {
@@ -280,7 +326,7 @@ public static class EmojiEncoding
     [ MethodImpl ( MethodImplOptions.AggressiveInlining ) ]
     private static bool IsZeroWidthJoined ( char code )
     {
-        return code is not CombiningEnclosingKeycap &&
+        return code is not char.MinValue and not CombiningEnclosingKeycap &&
                ! char.IsBetween ( code, LightSkinTone,      DarkSkinTone       ) &&
                ! char.IsBetween ( code, RegionalIndicatorA, RegionalIndicatorZ );
     }
