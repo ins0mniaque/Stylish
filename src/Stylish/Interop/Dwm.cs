@@ -134,6 +134,11 @@ public static partial class Dwm
         public int Left, Top, Right, Bottom;
     }
 
+    #if ! NET6_0
     [ LibraryImport ( "dwmapi.dll" ) ]
     private static partial int DwmSetWindowAttribute ( nint hwnd, int attribute, ref int value, int size );
+    #else
+    [ DllImport ( "dwmapi.dll" ) ]
+    private static extern int DwmSetWindowAttribute ( nint hwnd, int attribute, ref int value, int size );
+    #endif
 }

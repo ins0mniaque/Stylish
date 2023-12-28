@@ -52,9 +52,11 @@ public record UnicodeEmoji ( string Group, string Subgroup, string Name, string 
         }
     }
 
+    private static readonly char [ ] separators = new [ ] { ';', '#' };
+
     private static UnicodeEmoji ParseEmoji ( string group, string subgroup, string line )
     {
-        var parts  = line.Split ( new [ ] { ';', '#' }, 3 );
+        var parts  = line.Split ( separators, 3 );
         var status = parts [ 1 ].Trim ( );
 
         var versionAndName = parts [ 2 ].Split ( 'E', 2 ) [ 1 ].Split ( ' ', 2 );

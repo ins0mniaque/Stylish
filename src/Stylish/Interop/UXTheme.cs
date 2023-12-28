@@ -7,10 +7,10 @@ namespace Stylish.Interop;
 
 public enum PreferredAppMode
 {
-   Default,
-   AllowDark,
-   ForceDark,
-   ForceLight
+    Default,
+    AllowDark,
+    ForceDark,
+    ForceLight
 };
 
 public static partial class UXTheme
@@ -70,7 +70,7 @@ public static partial class UXTheme
         if ( name [ 0 ] is not '@' )
             return name;
 
-        length = SHLoadIndirectString ( Environment.ExpandEnvironmentVariables ( name ), buffer, buffer.Length, nint.Zero );
+        length = SHLoadIndirectString ( Environment.ExpandEnvironmentVariables ( name ), buffer, buffer.Length, (nint) 0 );
         if ( length <= 0 )
             return null;
 
@@ -99,6 +99,7 @@ public static partial class UXTheme
         return null;
     }
 
+    #if ! NET6_0
     [ LibraryImport ( "UXTheme.dll", EntryPoint = "#132" ) ]
     [ return: MarshalAs ( UnmanagedType.Bool ) ]
     private static partial bool ShouldAppsUseDarkMode ( );
@@ -119,4 +120,26 @@ public static partial class UXTheme
 
     [ LibraryImport ( "shlwapi.dll", StringMarshalling = StringMarshalling.Utf16 ) ]
     private static partial int SHLoadIndirectString ( string source, [In, Out] char [ ] buffer, int size, nint reserved );
+    #else
+    [ DllImport ( "UXTheme.dll", EntryPoint = "#132" ) ]
+    [ return: MarshalAs ( UnmanagedType.Bool ) ]
+    private static extern bool ShouldAppsUseDarkMode ( );
+
+    [ DllImport ( "UXTheme.dll", EntryPoint = "#138" ) ]
+    [ return: MarshalAs ( UnmanagedType.Bool ) ]
+    private static extern bool ShouldSystemUseDarkMode ( );
+
+    [ DllImport ( "UXTheme.dll", EntryPoint = "#135" ) ]
+    private static extern void SetPreferredAppMode ( int mode );
+
+    [ DllImport ( "UXTheme.dll", EntryPoint = "#133" ) ]
+    [ return: MarshalAs ( UnmanagedType.Bool ) ]
+    private static extern bool AllowDarkModeForWindow ( nint hwnd, [ MarshalAs ( UnmanagedType.Bool ) ] bool enabled );
+
+    [ DllImport ( "kernel32.dll", EntryPoint = "GetPrivateProfileStringW", CharSet = CharSet.Unicode ) ]
+    private static extern uint GetPrivateProfileString ( string? section, string? key, string? defaultValue, [In, Out] char [ ] buffer, uint size, string path );
+
+    [ DllImport ( "shlwapi.dll", CharSet = CharSet.Unicode ) ]
+    private static extern int SHLoadIndirectString ( string source, [In, Out] char [ ] buffer, int size, nint reserved );
+    #endif
 }

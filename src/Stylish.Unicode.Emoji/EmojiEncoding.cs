@@ -78,7 +78,7 @@ public static class EmojiEncoding
 
     public static unsafe long? Encode ( string emoji )
     {
-        ArgumentException.ThrowIfNullOrEmpty ( emoji );
+        ArgumentNullException.ThrowIfNull ( emoji );
 
         const int CodeSize = sizeof ( long ) / sizeof ( char );
 
@@ -154,7 +154,7 @@ public static class EmojiEncoding
         {
             var code = (char) codepoint;
 
-            if ( length > 0 && char.IsBetween ( code, LightSkinTone, DarkSkinTone ) )
+            if ( length > 0 && IsBetween ( code, LightSkinTone, DarkSkinTone ) )
             {
                 ref var previous = ref encoded [ length - 1 ];
 
@@ -191,21 +191,21 @@ public static class EmojiEncoding
             decoded [ length++ ] = Plane1;
             decoded [ length++ ] = code;
         }
-        else if ( char.IsBetween ( code, LightSkinPerson, DarkSkinPerson ) )
+        else if ( IsBetween ( code, LightSkinPerson, DarkSkinPerson ) )
         {
             decoded [ length++ ] = Plane1;
             decoded [ length++ ] = Person;
             decoded [ length++ ] = Plane1;
             decoded [ length++ ] = (char) ( LightSkinTone + ( code - LightSkinPerson ) );
         }
-        else if ( char.IsBetween ( code, LightSkinMan, DarkSkinMan ) )
+        else if ( IsBetween ( code, LightSkinMan, DarkSkinMan ) )
         {
             decoded [ length++ ] = Plane1;
             decoded [ length++ ] = Man;
             decoded [ length++ ] = Plane1;
             decoded [ length++ ] = (char) ( LightSkinTone + ( code - LightSkinMan ) );
         }
-        else if ( char.IsBetween ( code, LightSkinWoman, DarkSkinWoman ) )
+        else if ( IsBetween ( code, LightSkinWoman, DarkSkinWoman ) )
         {
             decoded [ length++ ] = Plane1;
             decoded [ length++ ] = Woman;
@@ -289,7 +289,11 @@ public static class EmojiEncoding
             if ( BitConverter.IsLittleEndian )
                 emoji = BinaryPrimitives.ReverseEndianness ( emoji );
 
+            #if NET8_0
+            MemoryMarshal.Write ( decoded, in emoji );
+            #else
             MemoryMarshal.Write ( decoded, ref emoji );
+            #endif
 
             var base64 = decoded [ PrefixSize.. ];
 
@@ -322,10 +326,16 @@ public static class EmojiEncoding
     }
 
     [ MethodImpl ( MethodImplOptions.AggressiveInlining ) ]
+    private static bool IsBetween ( char c, char minInclusive, char maxInclusive )
+    {
+        return (uint) ( c - minInclusive ) <= (uint) ( maxInclusive - minInclusive );
+    }
+
+    [ MethodImpl ( MethodImplOptions.AggressiveInlining ) ]
     private static bool IsZeroWidthJoined ( char code )
     {
-        return code is not char.MinValue and not CombiningEnclosingKeycap &&
-               ! char.IsBetween ( code, LightSkinTone,      DarkSkinTone       ) &&
-               ! char.IsBetween ( code, RegionalIndicatorA, RegionalIndicatorZ );
+        return code is not char.MinValue and not CombiningEnclosingKeycap   &&
+               ! IsBetween ( code, LightSkinTone,      DarkSkinTone       ) &&
+               ! IsBetween ( code, RegionalIndicatorA, RegionalIndicatorZ );
     }
 }

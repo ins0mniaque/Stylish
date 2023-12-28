@@ -46,7 +46,7 @@ public class Window : System.Windows.Window
         var hwnd   = new WindowInteropHelper ( window ).Handle;
         var dark   = e.NewValue is Mode.Dark;
 
-        if ( hwnd is not 0 )
+        if ( hwnd is not (nint) 0 )
         {
             Dwm    .UseImmersiveDarkMode ( hwnd, dark );
             UXTheme.SetPreferredAppMode  ( dark ? PreferredAppMode.AllowDark : PreferredAppMode.Default );
@@ -96,7 +96,7 @@ public class Window : System.Windows.Window
         var window = (System.Windows.Window) d;
         var hwnd   = new WindowInteropHelper ( window ).Handle;
 
-        if ( hwnd is not 0 )
+        if ( hwnd is not (nint) 0 )
             Dwm.SetSystemBackdrop ( hwnd, (Material) e.NewValue );
         else
             window.SourceInitialized += SetSystemBackdropType;

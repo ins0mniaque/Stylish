@@ -1,11 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
     <Description>Stylish.Unicode.Emoji provides metadata and a compact 64-bit encoding for all Unicode 15.1 emojis.</Description>
     <PackageTags>stylish,emoji,unicode,encoding,decoding,metadata</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
+  </ItemGroup>
 
 </Project>

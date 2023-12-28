@@ -106,7 +106,7 @@ public static class EmojiGenerator
             await WriteLine ( "    #endregion {0}", lastGroup );
 
         await destination.WriteAsync ( "}".AsMemory ( ), cancellationToken ).ConfigureAwait ( false );
-        await destination.FlushAsync ( )                                    .ConfigureAwait ( false );
+        await destination.FlushAsync ( cancellationToken )                  .ConfigureAwait ( false );
 
         ConfiguredTaskAwaitable WriteLine ( string? format = null, params object [  ] args )
         {
@@ -135,7 +135,7 @@ public static class EmojiGenerator
         await WriteLine ( "    {0}",                              CreateIdentifier ( last.Key ) );
 
         await destination.WriteAsync ( "}".AsMemory ( ), cancellationToken ).ConfigureAwait ( false );
-        await destination.FlushAsync ( )                                    .ConfigureAwait ( false );
+        await destination.FlushAsync ( cancellationToken )                  .ConfigureAwait ( false );
 
         ConfiguredTaskAwaitable WriteLine ( string? format = null, params object [  ] args )
         {
@@ -159,7 +159,7 @@ public static class EmojiGenerator
         await destination.GenerateMetadataMethod ( subgroups, "EmojiSubgroup GetSubgroup", "EmojiSubgroup.{0}", FormatSubgroupRegion, "EmojiSubgroup.None", cancellationToken ).ConfigureAwait ( false );
 
         await destination.WriteAsync ( "}".AsMemory ( ), cancellationToken ).ConfigureAwait ( false );
-        await destination.FlushAsync ( )                                    .ConfigureAwait ( false );
+        await destination.FlushAsync ( cancellationToken )                  .ConfigureAwait ( false );
 
         ConfiguredTaskAwaitable WriteLine ( string? format = null, params object [  ] args )
         {

@@ -9,6 +9,8 @@ public abstract class StylishTests
 {
     static StylishTests ( ) => Assembly.Load ( nameof ( Stylish ) );
 
+    private static readonly char [ ] xamlTagEnd = new [  ] { ' ', '\t', '\n', '/', '>' };
+
     protected static T Parse < T > ( string xaml )
     {
         ArgumentNullException.ThrowIfNull ( xaml );
@@ -17,7 +19,7 @@ public abstract class StylishTests
                              @" xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""" +
                              @" xmlns:ß=""urn:stylish:schema""";
 
-        var insertAt = xaml.IndexOfAny ( new [  ] { ' ', '\t', '\n', '/', '>' } );
+        var insertAt = xaml.IndexOfAny ( xamlTagEnd );
 
         return (T) XamlReader.Parse ( string.Concat ( xaml [ ..insertAt ], xmlns, xaml [ insertAt.. ] ) );
     }
