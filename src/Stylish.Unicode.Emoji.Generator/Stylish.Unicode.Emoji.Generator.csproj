@@ -6,7 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Using Include="Spectre.Console" />
+    <Using Include="Stylish.Unicode" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.CodeDom" Version="8.0.0" />
+    <PackageReference Include="Spectre.Console" Version="0.48.0" />
   </ItemGroup>
 
   <ItemGroup>
