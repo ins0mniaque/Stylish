@@ -1,7 +1,12 @@
 <Project>
+
   <PropertyGroup>
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditLevel>low</NuGetAuditLevel>
+    <NuGetAuditMode>all</NuGetAuditMode>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
+
   <ItemGroup>
     <PackageVersion Include="System.Drawing.Common"       Version="8.0.0"  />
     <PackageVersion Include="System.CodeDom"              Version="8.0.0"  />
@@ -12,4 +17,5 @@
     <PackageVersion Include="MSTest.TestFramework"        Version="3.1.1"  />
     <PackageVersion Include="coverlet.collector"          Version="6.0.0"  />
   </ItemGroup>
+
 </Project>
