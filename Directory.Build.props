@@ -1,21 +1,12 @@
 <Project>
 
   <PropertyGroup>
-    <Authors>Jean-Philippe Leconte</Authors>
-    <Copyright>Copyright © Jean-Philippe Leconte 2023</Copyright>
-    <VersionPrefix>0.9.0</VersionPrefix>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/ins0mniaque/Stylish</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/ins0mniaque/Stylish</PackageProjectUrl>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Version>0.9.0</Version>
+    <LangVersion>12.0</LangVersion>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
 
   <PropertyGroup>
-    <LangVersion>12.0</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <CLSCompliant>true</CLSCompliant>
@@ -26,6 +17,26 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <Authors>Jean-Philippe Leconte</Authors>
+    <Copyright>Copyright © Jean-Philippe Leconte 2023</Copyright>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryBranch>main</RepositoryBranch>
+    <RepositoryUrl>https://github.com/ins0mniaque/Stylish</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/ins0mniaque/Stylish</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicense>https://raw.githubusercontent.com/ins0mniaque/Stylish/main/LICENSE</PackageLicense>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Visible="false" Pack="true" PackagePath="" />
+    <None Include="..\..\LICENSE"   Visible="false" Pack="true" PackagePath="" />
+  </ItemGroup>
 
   <ItemGroup>
     <AssemblyAttribute Include="System.CLSCompliantAttribute">
