@@ -52,7 +52,7 @@ public record UnicodeEmoji ( string Group, string Subgroup, string Name, string 
         }
     }
 
-    private static readonly char [ ] separators = new [ ] { ';', '#' };
+    private static readonly char [ ] separators = [ ';', '#' ];
 
     private static UnicodeEmoji ParseEmoji ( string group, string subgroup, string line )
     {

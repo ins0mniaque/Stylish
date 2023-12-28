@@ -262,7 +262,7 @@ public static class EmojiGenerator
     }
 
     private static readonly CSharpCodeProvider codeProvider   = new ( );
-    private static readonly char [ ]           wordSeparators = new [ ] { ' ', '-', ',', '’', '!', '“', '”', '(', ')', '.' };
+    private static readonly char [ ]           wordSeparators = [ ' ', '-', ',', '’', '!', '“', '”', '(', ')', '.' ];
 
     private static string CreateIdentifier ( string name )
     {

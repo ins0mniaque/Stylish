@@ -9,7 +9,7 @@ public abstract class StylishTests
 {
     static StylishTests ( ) => Assembly.Load ( nameof ( Stylish ) );
 
-    private static readonly char [ ] xamlTagEnd = new [  ] { ' ', '\t', '\n', '/', '>' };
+    private static readonly char [ ] xamlTagEnds = [ ' ', '\t', '\n', '/', '>' ];
 
     protected static T Parse < T > ( string xaml )
     {
@@ -19,13 +19,12 @@ public abstract class StylishTests
                              @" xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""" +
                              @" xmlns:ß=""urn:stylish:schema""";
 
-        var insertAt = xaml.IndexOfAny ( xamlTagEnd );
+        var insertAt = xaml.IndexOfAny ( xamlTagEnds );
 
         return (T) XamlReader.Parse ( string.Concat ( xaml [ ..insertAt ], xmlns, xaml [ insertAt.. ] ) );
     }
 
     [ SuppressMessage ( "Design", "CA1031:Do not catch general exception types", Justification = "ExceptionDispatchInfo" ) ]
-    [ SuppressMessage ( "Maintainability", "CA1508:Avoid dead conditional code", Justification = "ExceptionDispatchInfo" ) ]
     protected static async Task STA ( Action action )
     {
         using var semaphore = new SemaphoreSlim ( 0, 1 );
