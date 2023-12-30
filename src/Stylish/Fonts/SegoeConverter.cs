@@ -7,7 +7,7 @@ namespace Stylish.Fonts;
 
 public static class SegoeConverter
 {
-    public static string ToUnicode ( this Emoji emoji, Variant variant = Variant.None )
+    public static string ToUnicode ( this Unicode.Emoji emoji, Variant variant = Variant.None )
     {
         return EmojiEncoding.Decode ( (long) emoji, variant );
     }

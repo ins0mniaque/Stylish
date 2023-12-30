@@ -6,13 +6,45 @@
 
           Title="Stylish"
 
-          FontFamily="{ß:Segoe}"
+          Material="Acrylic"
 
-          Width="800" Height="450">
+          Width="800" Height="600">
 
-    <Grid>
+    <Window.Resources>
+        <ß:TextGeometry x:Key="TextGeometry" Text="lol" FontSize="24" FontWeight="ExtraBold" />
+    </Window.Resources>
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="{x:Static WindowChrome.GlassFrameCompleteThickness}" />
+    </WindowChrome.WindowChrome>
+
+    <DockPanel>
+        <TextBlock DockPanel.Dock="Top"
+                   Margin="4 0 0 0"
+                   FontSize="20">
+            <ß:Segoe Emoji="ArtistPalette" /> Stylish
+            <Run Text="{ß:Segoe MDL2=Accident}" FontStyle="Normal" BaselineAlignment="Baseline" /> Sty
+            <Run Text="{ß:Segoe MDL2=Accident}" FontStyle="Italic" BaselineAlignment="Bottom" /> Sty
+            <Run Text="{ß:Segoe MDL2=Accident}" FontStyle="Italic" BaselineAlignment="Center" /> Sty
+            <Run Text="{ß:Segoe MDL2=Accident}" FontStyle="Italic" BaselineAlignment="Subscript" /> Sty
+            <Run Text="{ß:Segoe MDL2=Accident}" FontStyle="Italic" BaselineAlignment="Superscript" /> Sty
+            <Run Text="{ß:Segoe MDL2=Accident}" FontStyle="Italic" BaselineAlignment="TextBottom" /> Sty
+            <Run Text="{ß:Segoe MDL2=Accident}" FontStyle="Italic" BaselineAlignment="TextTop" /> Sty
+            <Run Text="{ß:Segoe MDL2=Accident}" FontStyle="Italic" BaselineAlignment="Top" /> Sty
+        </TextBlock>
 
         <StackPanel TextElement.FontSize="24">
+            <TextBlock Text="{ß:Symbol Emoji=AButtonBloodType}" />
+            <ß:FontIcon Glyph="A" BackgroundGlyph="B" Background="DeepPink" MaxWidth="36" />
+            <ß:FontIcon Glyph="A" BackgroundGlyph="B" Background="DeepPink" Width="48" />
+            <ß:FontIcon Glyph="A" BackgroundGlyph="B" Background="DeepPink" Height="48" />
+            <ß:FontIcon Glyph="A" BackgroundGlyph="B" Background="DeepPink" Width="48" Height="48" />
+            <ß:FontIcon Glyph="A" BackgroundGlyph="B" Background="DeepPink" Width="48" Height="48" Stretch="None" />
+            <ß:Emoji Symbol="AdmissionTickets" />
+            <ß:PathIcon Data="{StaticResource TextGeometry}" Background="DeepPink" />
+            <ß:PathIcon Data="{StaticResource TextGeometry}" Background="Chartreuse" Foreground="White" StrokeThickness="4" Height="80" />
+            <ß:BitmapIcon Source="bitmap.png" Height="64" Width="64" />
+            <ß:BitmapIcon Source="bitmap.png" Height="64" Width="64" ShowAsMonochrome="False" />
             <StackPanel Orientation="Horizontal">
                 <ß:Segoe Symbol="Calculator" />
                 <ß:Segoe Fluent="StockDown" />
@@ -73,6 +105,6 @@
             <Button Content="{ß:Segoe Symbol=AddFriend, Format='{}{0} A {0} B {0} C {0}'}" />
         </StackPanel>
 
-    </Grid>
+    </DockPanel>
 
 </ß:Window>

@@ -105,7 +105,7 @@ public class Segoe : Symbol, ISupportInitialize
             return Symbol.ToUnicode ( );
         }
 
-        if ( Emoji is not Emoji.None )
+        if ( Emoji is not Unicode.Emoji.None )
         {
             if ( ! isEmojiRequested && IsEmojiAvailable )
                 fontFamilyToSet = EmojiFontFamily ??= new FontFamily ( EmojiFontName );
@@ -175,11 +175,9 @@ public class Segoe : Symbol, ISupportInitialize
             return AddIconFontsTo ( window.FontFamily );
 
         var binding = new Binding { Path = new PropertyPath ( "(0)", TextElement.FontFamilyProperty ),
-                                        RelativeSource = new RelativeSource { AncestorType= typeof ( DependencyObject ) },
-                                        Converter = new Lolz () };
+                                    RelativeSource = new RelativeSource { AncestorType= typeof ( DependencyObject ) },
+                                    Converter = new Lolz () };
 
-
-
-            return binding.ProvideValue ( serviceProvider );
+        return binding.ProvideValue ( serviceProvider );
     }
 }

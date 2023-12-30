@@ -13,9 +13,9 @@ namespace Stylish;
 
 public class Symbol : MarkupExtension
 {
-    public Emoji   Emoji   { get; set; }
-    public Variant Variant { get; set; }
-    public string? Format  { get; set; }
+    public Unicode.Emoji Emoji   { get; set; }
+    public Variant       Variant { get; set; }
+    public string?       Format  { get; set; }
 
     public sealed override object ProvideValue ( IServiceProvider serviceProvider )
     {
@@ -56,7 +56,7 @@ public class Symbol : MarkupExtension
     {
         fontFamilyToSet = null;
 
-        if ( Emoji is not Emoji.None )
+        if ( Emoji is not Unicode.Emoji.None )
             return Emoji.ToUnicode ( Variant );
 
         return null;

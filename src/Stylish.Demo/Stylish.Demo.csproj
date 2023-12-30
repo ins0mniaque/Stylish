@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Stylish\Stylish.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Resource Include="bitmap.png" />
+  </ItemGroup>
+
 </Project>
