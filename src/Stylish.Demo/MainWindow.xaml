@@ -34,6 +34,8 @@
         </TextBlock>
 
         <StackPanel TextElement.FontSize="24">
+            <Image x:Name="Image" Stretch="None" />
+            <Image x:Name="Image2" Stretch="None" />
             <TextBlock Text="{ß:Symbol Emoji=AButtonBloodType}" />
             <ß:FontIcon Glyph="A" BackgroundGlyph="B" Background="DeepPink" MaxWidth="36" />
             <ß:FontIcon Glyph="A" BackgroundGlyph="B" Background="DeepPink" Width="48" />

@@ -1,0 +1,14 @@
+CreateCompatibleBitmap
+CreateCompatibleDC
+DeleteDC
+DeleteObject
+GetDesktopWindow
+GetWindowDC
+ReleaseDC
+SelectObject
+D2D1CreateFactory
+DWriteCreateFactory
+ID2D1Factory
+ID2D1RenderTarget
+IDWriteFactory
+S_OK
