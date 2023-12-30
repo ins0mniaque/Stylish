@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
@@ -37,7 +38,9 @@ public static class BitmapEffect
         return target;
     }
 
-    // TODO: AVX bitwise AND FF000000FF000000... OR 00XXXXXX00XXXXXX...
+    [ StructLayout ( LayoutKind.Sequential ) ]
+    private struct Bgra32 { public byte B, G, R, A; }
+
     public static unsafe WriteableBitmap Tint ( this BitmapSource source, Color color )
     {
         ArgumentNullException.ThrowIfNull ( source );
@@ -48,21 +51,21 @@ public static class BitmapEffect
                                                 new ColorContext ( PixelFormats.Bgra32 ),
                                                 PixelFormats.Bgra32 );
 
-        const int AlphaMask = unchecked ( (int) 0xFF000000 );
-
-        var tint = color.B | color.G << 8 | color.R << 16;
-
+        var tint      = new Bgra32 { A = byte.MaxValue, B = color.B, G = color.G, R = color.R };
         var writeable = source as WriteableBitmap ?? new WriteableBitmap ( source );
         var stride    = writeable.BackBufferStride * 8 / writeable.Format.BitsPerPixel;
-        var buffer    = new Span < int > ( writeable.BackBuffer.ToPointer ( ), writeable.PixelHeight * stride );
+        var buffer    = new Span < Bgra32 > ( writeable.BackBuffer.ToPointer ( ), writeable.PixelHeight * stride );
 
         for ( var x = 0; x < writeable.PixelWidth; x++ )
         {
             for ( var y = 0; y < writeable.PixelHeight; y++ )
             {
-                var index = x + y * stride;
+                ref var bgra = ref buffer [ x + y * stride ];
 
-                buffer [ index ] = ( buffer [ index ] & AlphaMask ) | tint;
+                var alpha = (byte) ( bgra.A * ( 1140 * bgra.B + 5870 * bgra.G + 2989 * bgra.R - 2550000 ) / -2550000 );
+
+                bgra   = tint;
+                bgra.A = alpha;
             }
         }
 
