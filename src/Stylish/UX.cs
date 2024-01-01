@@ -6,8 +6,6 @@ using Microsoft.Win32;
 
 using Stylish.Interop;
 
-using Windows.Win32;
-
 namespace Stylish;
 
 public record UX ( string Name, Mode Mode, Color Window, Color WindowText, Color Accent, Color AccentText )
