@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
 using Windows.Win32;
@@ -26,43 +28,40 @@ public static class DirectX
     public static PixelDensity GetWindowPixelDensity ( nint hwnd )
     {
         if ( OperatingSystem.IsWindowsVersionAtLeast ( 10, 0, 14393 ) )
-        {
-            var mode = (PROCESS_DPI_AWARENESS) PInvoke.GetDpiForWindow ( new HWND ( hwnd ) );
-            return mode switch
-            {
-                PROCESS_DPI_AWARENESS.PROCESS_DPI_UNAWARE           => PixelDensity.FromDpi ( 96f ),
-                PROCESS_DPI_AWARENESS.PROCESS_SYSTEM_DPI_AWARE      => GetSystemPixelDensity ( ),
-                PROCESS_DPI_AWARENESS.PROCESS_PER_MONITOR_DPI_AWARE => GetWindowMonitorPixelDensity ( hwnd ),
-                _                                                   => PixelDensity.FromDpi ( 96f )
-            };
-        }
+            return PixelDensity.FromDpi ( PInvoke.GetDpiForWindow ( new HWND ( hwnd ) ) );
 
-        return GetWindowMonitorPixelDensity ( hwnd );
-    }
-
-    private static PixelDensity GetWindowMonitorPixelDensity ( nint hwnd )
-    {
         if ( OperatingSystem.IsWindowsVersionAtLeast ( 8, 1 ) )
         {
-            var monitor = PInvoke.MonitorFromWindow ( new HWND ( hwnd ), MONITOR_FROM_FLAGS.MONITOR_DEFAULTTONEAREST );
-            _ = PInvoke.GetDpiForMonitor ( monitor, MONITOR_DPI_TYPE.MDT_DEFAULT, out var dpiX, out var dpiY );
+            var monitor = PInvoke.MonitorFromWindow ( new HWND ( hwnd ), MONITOR_FROM_FLAGS.MONITOR_DEFAULTTOPRIMARY );
+            if ( PInvoke.GetDpiForMonitor ( monitor, MONITOR_DPI_TYPE.MDT_EFFECTIVE_DPI, out var dpiX, out var dpiY ) != HRESULT.S_OK )
+                throw new Win32Exception ( );
 
             return PixelDensity.FromDpi ( dpiX, dpiY );
         }
 
-        return GetSystemPixelDensity ( );
+        var hdc   = PInvoke.GetDC         ( new HWND ( hwnd ) );
+        var dpliX = PInvoke.GetDeviceCaps ( hdc, GET_DEVICE_CAPS_INDEX.LOGPIXELSX );
+        var dpliY = PInvoke.GetDeviceCaps ( hdc, GET_DEVICE_CAPS_INDEX.LOGPIXELSY );
+        _         = PInvoke.ReleaseDC     ( new HWND ( hwnd ), hdc );
+
+        return PixelDensity.FromDpi ( dpliX, dpliY );
     }
 
     private static readonly ThreadLocal < ID2D1Factory?   > d2d1   = new ( CreateD2D1Factory );
     private static readonly Lazy        < IDWriteFactory? > dWrite = new ( CreateDWriteFactory );
 
-    internal static ID2D1Factory   D2D1   => d2d1  .Value ?? throw new NotSupportedException ( );
-    internal static IDWriteFactory DWrite => dWrite.Value ?? throw new NotSupportedException ( );
+    internal static ID2D1Factory   D2D1   => d2d1  .Value ?? throw new Win32Exception ( D2D1FactoryWin32Error   );
+    internal static IDWriteFactory DWrite => dWrite.Value ?? throw new Win32Exception ( DWriteFactoryWin32Error );
+
+    private static int D2D1FactoryWin32Error;
+    private static int DWriteFactoryWin32Error;
 
     private static ID2D1Factory? CreateD2D1Factory ( )
     {
         if ( PInvoke.D2D1CreateFactory ( D2D1_FACTORY_TYPE.D2D1_FACTORY_TYPE_SINGLE_THREADED, typeof ( ID2D1Factory ).GUID, null, out var pFactory ) == HRESULT.S_OK )
             return (ID2D1Factory) pFactory;
+
+        D2D1FactoryWin32Error = Marshal.GetLastWin32Error ( );
 
         return null;
     }
@@ -71,6 +70,8 @@ public static class DirectX
     {
         if ( PInvoke.DWriteCreateFactory ( DWRITE_FACTORY_TYPE.DWRITE_FACTORY_TYPE_SHARED, typeof ( IDWriteFactory ).GUID, out var dFactory ) == HRESULT.S_OK )
             return (IDWriteFactory) dFactory;
+
+        DWriteFactoryWin32Error = Marshal.GetLastWin32Error ( );
 
         return null;
     }

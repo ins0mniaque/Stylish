@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Windows.CsWin32" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers" />
-    <AdditionalFiles  Include="NativeMethods.txt" />
+    <AdditionalFiles Include="NativeMethods.txt" />
   </ItemGroup>
 
 </Project>

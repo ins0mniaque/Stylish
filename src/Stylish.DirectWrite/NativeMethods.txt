@@ -3,7 +3,9 @@ CreateCompatibleDC
 DeleteDC
 DeleteObject
 GetClientRect
+GetDC
 GetDesktopWindow
+GetDeviceCaps
 GetDIBits
 GetDpiForMonitor
 GetDpiForWindow
@@ -19,5 +21,4 @@ DWriteCreateFactory
 ID2D1Factory
 ID2D1RenderTarget
 IDWriteFactory
-PROCESS_DPI_AWARENESS
 S_OK

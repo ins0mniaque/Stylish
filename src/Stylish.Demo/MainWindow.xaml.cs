@@ -13,19 +13,20 @@ public partial class MainWindow
         InitializeComponent ( );
 
         var dpi2 = DirectWrite.DirectX.GetSystemPixelDensity ( );
+        var dpi3 = DirectWrite.DirectX.GetWindowPixelDensity ( new WindowInteropHelper ( this ).EnsureHandle ( ) );
         var dpi = VisualTreeHelper.GetDpi ( this );
 
-        var textFormat = new DirectWrite.TextFormat ( FontFamily.Source, DirectWrite.FontWeight.Normal, default, DirectWrite.FontStretch.Normal, 48, CultureInfo.CurrentUICulture, default, default, default, default, default, default, default, default, default, default, default, default );
-        var textLayout = new DirectWrite.TextLayout ( "🐋📈🎏🔨💃🙆🐔💌💠😾", textFormat, int.MaxValue, int.MaxValue, (float) dpi.PixelsPerDip, null, true );
-        var textLayout2 = new DirectWrite.TextLayout ( "ABCDEFGH", textFormat, int.MaxValue, int.MaxValue, (float) dpi.PixelsPerDip, null, true );
+        var textFormat = new DirectWrite.TextFormat ( FontFamily.Source, 48 );
+        var textLayout = new DirectWrite.TextLayout ( "🐋📈🎏🔨💃🙆🐔💌💠😾", textFormat, (float) dpi.PixelsPerDip );
+        var textLayout2 = new DirectWrite.TextLayout ( "ABCDEFGH", textFormat, (float) dpi.PixelsPerDip );
 
         using var surface = new DirectWrite.Surface ( (int) textLayout.Metrics.WidthIncludingTrailingWhitespace, (int) textLayout.Metrics.Height, (float) dpi.PixelsPerInchX, (float) dpi.PixelsPerInchY );
 
-        var brush = new DirectWrite.SolidColorBrush ( surface, new DirectWrite.Color ( 0, 0, 0, 1 ), 1, DirectWrite.Matrix.Identity );
+        var brush = new DirectWrite.Brushes.SolidColorBrush ( surface, new DirectWrite.Brushes.Color ( 1, 0, 0, 0 ) );
 
-        surface.Render ( textLayout, brush, DirectWrite.RenderOptions.EnableColorFont );
+        surface.Draw ( textLayout, brush );
 
-        surface.Flush ( );
+        surface.Render ( );
 
         Image.Source = Imaging.CreateBitmapSourceFromHBitmap(surface.HBitmap, (nint) 0, new System.Windows.Int32Rect ( 0, 0, surface.PixelWidth, surface.PixelHeight ),
                                                            BitmapSizeOptions.FromWidthAndHeight( surface.Width, surface.Height ) );
@@ -33,9 +34,9 @@ public partial class MainWindow
         // surface.Resize ( (int) textLayout2.Metrics.WidthIncludingTrailingWhitespace, (int) textLayout2.Metrics.Height, (float) dpi.PixelsPerInchX, (float) dpi.PixelsPerInchY );
         surface.Clear ( );
 
-        surface.Render ( textLayout2, brush, DirectWrite.RenderOptions.EnableColorFont );
+        surface.Draw ( textLayout2, brush );
 
-        surface.Flush ( );
+        surface.Render ( );
 
         var pw2 = surface.PixelDensity.ToPixelWidth  ( (int) textLayout2.Metrics.WidthIncludingTrailingWhitespace );
         var ph2 = surface.PixelDensity.ToPixelHeight ( (int) textLayout2.Metrics.Height );
@@ -43,11 +44,10 @@ public partial class MainWindow
         Image2.Source = Imaging.CreateBitmapSourceFromHBitmap(surface.HBitmap, (nint) 0, new System.Windows.Int32Rect ( 0, 0, pw2, ph2 ),
                                                               BitmapSizeOptions.FromWidthAndHeight( (int) textLayout2.Metrics.WidthIncludingTrailingWhitespace, (int) textLayout2.Metrics.Height ) );
 
-        var test = new byte [ surface.PixelWidth * surface.PixelHeight * surface.BitsPerPixel / 8 ];
+        var test = textLayout2.LineMetrics;
+        var testB = textLayout.ClusterMetrics;
 
-        // surface.CopyPixels ( test.AsSpan ( ) );
-
-        test.ToString ( );
+        test?.ToString ( );
     }
 
     protected override void OnRender ( DrawingContext drawingContext )
@@ -63,8 +63,6 @@ public partial class MainWindow
             {
                 var range = new TextRange ( RichTextBox.Document.ContentStart.GetPositionAtOffset ( x.Offset ),
                     RichTextBox.Document.ContentStart.GetPositionAtOffset ( x.Offset + x.AddedLength ) );
-
-                
 
                 if ( range.Text.Contains ( 'a', StringComparison.Ordinal ) )
                 {
