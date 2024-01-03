@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stylish.Unicode.Emoji.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylish.DirectWrite", "src\Stylish.DirectWrite\Stylish.DirectWrite.csproj", "{694E1A9A-9D3F-4FD8-AC8C-B93F791C4144}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylish.Fonts", "src\Stylish.Fonts\Stylish.Fonts.csproj", "{A4D54585-ED91-43D1-9E8B-22EF1C565200}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{694E1A9A-9D3F-4FD8-AC8C-B93F791C4144}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{694E1A9A-9D3F-4FD8-AC8C-B93F791C4144}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{694E1A9A-9D3F-4FD8-AC8C-B93F791C4144}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4D54585-ED91-43D1-9E8B-22EF1C565200}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4D54585-ED91-43D1-9E8B-22EF1C565200}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4D54585-ED91-43D1-9E8B-22EF1C565200}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4D54585-ED91-43D1-9E8B-22EF1C565200}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +85,7 @@ Global
 		{0A247A53-5288-472D-B2E2-A451647DFB5E} = {854F34C9-05E7-488A-809C-CA265225F612}
 		{F6B30A62-638A-4D5A-A8C3-767802FC5295} = {4393BC81-CE7E-48BB-B1BF-FA5878135224}
 		{694E1A9A-9D3F-4FD8-AC8C-B93F791C4144} = {854F34C9-05E7-488A-809C-CA265225F612}
+		{A4D54585-ED91-43D1-9E8B-22EF1C565200} = {854F34C9-05E7-488A-809C-CA265225F612}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DC13AB97-5B4B-432F-976D-74083843F572}

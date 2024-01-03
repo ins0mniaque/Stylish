@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0-windows;net7.0-windows;net6.0-windows</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+
+    <Description>Stylish.Fonts is a resource package for the latest Microsoft Fluent UI System Icons fonts.</Description>
+    <PackageTags>stylish,font,icon,fluent</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version>1.1.224</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="**\*.ttf" />
+  </ItemGroup>
+
+</Project>
