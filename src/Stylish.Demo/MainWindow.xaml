@@ -3,6 +3,7 @@
           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
           xmlns:ß="urn:stylish:schema"
+          xmlns:local="clr-namespace:Stylish.Demo"
 
           Title="Stylish"
 
@@ -35,8 +36,10 @@
         </TextBlock>
 
         <StackPanel TextElement.FontSize="24">
-            <Image x:Name="Image" Stretch="None" />
-            <Image x:Name="Image2" Stretch="None" />
+            <TextBlock            Text="🐋📈🎏🔨💃🙆🐔💌💠😾" />
+            <local:ColorTextBlock Text="🐋📈🎏🔨💃🙆🐔💌💠😾" />
+            <TextBlock            Text="ABCDEFGH" />
+            <local:ColorTextBlock Text="ABCDEFGH" />
             <RichTextBox x:Name="RichTextBox" TextChanged="RichTextBox_TextChanged" />
             <TextBlock Text="{ß:Symbol Emoji=AButtonBloodType}" />
             <ß:FontIcon Glyph="A" BackgroundGlyph="B" Background="DeepPink" MaxWidth="36" />
