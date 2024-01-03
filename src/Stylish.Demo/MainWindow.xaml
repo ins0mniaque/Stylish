@@ -40,7 +40,8 @@
             <local:ColorTextBlock Text="🐋📈🎏🔨💃🙆🐔💌💠😾" />
             <TextBlock            Text="ABCDEFGH" />
             <local:ColorTextBlock Text="ABCDEFGH" />
-            <RichTextBox x:Name="RichTextBox" TextChanged="RichTextBox_TextChanged" />
+            <RichTextBox />
+            <local:ColorRichTextBox />
             <TextBlock Text="{ß:Symbol Emoji=AButtonBloodType}" />
             <ß:FontIcon Glyph="A" BackgroundGlyph="B" Background="DeepPink" MaxWidth="36" />
             <ß:FontIcon Glyph="A" BackgroundGlyph="B" Background="DeepPink" Width="48" />
