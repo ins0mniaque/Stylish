@@ -1,0 +1,5 @@
+DwmSetWindowAttribute
+GetPrivateProfileString
+SHLoadIndirectString
+DWM_SYSTEMBACKDROP_TYPE
+S_OK

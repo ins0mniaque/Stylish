@@ -1,60 +1,56 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.Graphics.Dwm;
+
 namespace Stylish.Interop;
 
 public static partial class Dwm
 {
-    public static bool UseImmersiveDarkMode ( nint handle, bool enabled )
+    public static unsafe bool UseImmersiveDarkMode ( nint handle, bool enabled )
     {
-        const int DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1 = 19;
-        const int DWMWA_USE_IMMERSIVE_DARK_MODE = 20;
-
         if ( OperatingSystem.IsWindowsVersionAtLeast ( 10, 0, 17763 ) )
         {
+            const DWMWINDOWATTRIBUTE DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1 = (DWMWINDOWATTRIBUTE) 19;
+
             var attribute = DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1;
             if ( OperatingSystem.IsWindowsVersionAtLeast ( 10, 0, 18985 ) )
-                attribute = DWMWA_USE_IMMERSIVE_DARK_MODE;
+                attribute = DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE;
 
             var value = enabled ? 1 : 0;
 
-            return DwmSetWindowAttribute ( handle, attribute, ref value, Marshal.SizeOf < int > ( ) ) is S_OK;
+            return PInvoke.DwmSetWindowAttribute ( new HWND ( handle ), attribute, Unsafe.AsPointer ( ref value ), (uint) Marshal.SizeOf < int > ( ) ) == HRESULT.S_OK;
         }
 
         return false;
     }
 
-    public static bool SetSystemBackdrop ( nint hwnd, Material material )
+    public static unsafe bool SetSystemBackdrop ( nint hwnd, Material material )
     {
-        var attribute = 0;
+        var attribute = default ( DWMWINDOWATTRIBUTE );
         var value     = 0;
 
         if ( OperatingSystem.IsWindowsVersionAtLeast ( 10, 0, 22523 ) )
         {
-            const int DWMWA_SYSTEMBACKDROP_TYPE = 38;
-
-            const int DWMSBT_AUTO            = 0;
-            const int DWMSBT_NONE            = 1;
-            const int DWMSBT_MAINWINDOW      = 2;
-            const int DWMSBT_TRANSIENTWINDOW = 3;
-            const int DWMSBT_TABBEDWINDOW    = 4;
-
-            attribute = DWMWA_SYSTEMBACKDROP_TYPE;
+            attribute = DWMWINDOWATTRIBUTE.DWMWA_SYSTEMBACKDROP_TYPE;
             value     = material switch
             {
-                Material.Auto    => DWMSBT_AUTO,
-                Material.None    => DWMSBT_NONE,
-                Material.Mica    => DWMSBT_MAINWINDOW,
-                Material.Acrylic => DWMSBT_TRANSIENTWINDOW,
-                Material.MicaAlt => DWMSBT_TABBEDWINDOW,
-                _                => DWMSBT_AUTO
+                Material.Auto    => (int) DWM_SYSTEMBACKDROP_TYPE.DWMSBT_AUTO,
+                Material.None    => (int) DWM_SYSTEMBACKDROP_TYPE.DWMSBT_NONE,
+                Material.Mica    => (int) DWM_SYSTEMBACKDROP_TYPE.DWMSBT_MAINWINDOW,
+                Material.Acrylic => (int) DWM_SYSTEMBACKDROP_TYPE.DWMSBT_TRANSIENTWINDOW,
+                Material.MicaAlt => (int) DWM_SYSTEMBACKDROP_TYPE.DWMSBT_TABBEDWINDOW,
+                _                => (int) DWM_SYSTEMBACKDROP_TYPE.DWMSBT_AUTO
             };
         }
         else if ( OperatingSystem.IsWindowsVersionAtLeast ( 10, 0, 22000 ) )
         {
-            const int DWMWA_MICA_EFFECT = 1029;
+            const DWMWINDOWATTRIBUTE DWMWA_MICA_EFFECT = (DWMWINDOWATTRIBUTE) 1029;
 
             attribute = DWMWA_MICA_EFFECT;
             value     = material switch
@@ -68,7 +64,7 @@ public static partial class Dwm
             };
         }
 
-        var success = attribute is not 0 && DwmSetWindowAttribute ( hwnd, attribute, ref value, Marshal.SizeOf < int > ( ) ) is S_OK;
+        var success = attribute is not default ( DWMWINDOWATTRIBUTE ) && PInvoke.DwmSetWindowAttribute ( new HWND ( hwnd ), attribute, Unsafe.AsPointer ( ref value ), (uint) Marshal.SizeOf < int > ( ) ) == HRESULT.S_OK;
 
         if ( success && material is not Material.None )
             RemoveBackground ( hwnd );
@@ -125,20 +121,4 @@ public static partial class Dwm
     }
 
     private static readonly DependencyPropertyKey RemovedBackgroundPropertyKey = DependencyProperty.RegisterAttachedReadOnly ( "RemovedBackground", typeof ( object ), typeof ( Dwm ), new ( ) );
-
-    private const int S_OK = 0;
-
-    [ StructLayout ( LayoutKind.Sequential ) ]
-    private struct RECT
-    {
-        public int Left, Top, Right, Bottom;
-    }
-
-    #if ! NET6_0
-    [ LibraryImport ( "dwmapi.dll" ) ]
-    private static partial int DwmSetWindowAttribute ( nint hwnd, int attribute, ref int value, int size );
-    #else
-    [ DllImport ( "dwmapi.dll" ) ]
-    private static extern int DwmSetWindowAttribute ( nint hwnd, int attribute, ref int value, int size );
-    #endif
 }

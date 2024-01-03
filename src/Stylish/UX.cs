@@ -57,8 +57,8 @@ public record UX ( string Name, Mode Mode, Color Window, Color WindowText, Color
             SystemChanged?.Invoke ( null, EventArgs.Empty );
     }
 
-    private static Mode GetCurrentMode ( ) => SystemParameters.HighContrast ? Mode.HighContrast : UXTheme.ShouldAppsUseDarkMode2   ( ) ? Mode.Dark : Mode.Light;
-    private static Mode GetSystemMode  ( ) => SystemParameters.HighContrast ? Mode.HighContrast : UXTheme.ShouldSystemUseDarkMode2 ( ) ? Mode.Dark : Mode.Light;
+    private static Mode GetCurrentMode ( ) => SystemParameters.HighContrast ? Mode.HighContrast : UXTheme.ShouldAppsUseDarkMode   ( ) ? Mode.Dark : Mode.Light;
+    private static Mode GetSystemMode  ( ) => SystemParameters.HighContrast ? Mode.HighContrast : UXTheme.ShouldSystemUseDarkMode ( ) ? Mode.Dark : Mode.Light;
 
     private static UX Read ( Mode mode )
     {
