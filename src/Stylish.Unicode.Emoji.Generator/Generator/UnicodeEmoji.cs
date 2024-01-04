@@ -6,6 +6,7 @@ namespace Stylish.Unicode;
 public record UnicodeEmoji ( string Group, string Subgroup, string Name, string Value, string Status, double Version )
 {
     public const double LatestVersion = 15.1;
+    public const string DataFileName  = "emoji-test.txt";
 
     public static Uri GetSourceUri ( double unicodeVersion = LatestVersion )
     {
@@ -25,12 +26,14 @@ public record UnicodeEmoji ( string Group, string Subgroup, string Name, string 
         return await response.Content.ReadAsStreamAsync ( cancellationToken ).ConfigureAwait ( false );
     }
 
-    public static async IAsyncEnumerable < UnicodeEmoji > Parse ( Stream source, [ EnumeratorCancellation ] CancellationToken cancellationToken = default )
+    public static async IAsyncEnumerable < UnicodeEmoji > Parse ( Stream source, Action < double > parseVersion, [ EnumeratorCancellation ] CancellationToken cancellationToken = default )
     {
         ArgumentNullException.ThrowIfNull ( source );
+        ArgumentNullException.ThrowIfNull ( parseVersion );
 
         const string GroupPrefix    = "# group: ";
         const string SubgroupPrefix = "# subgroup: ";
+        const string VersionPrefix  = "# Version: ";
         const string CommentPrefix  = "#";
 
         using var reader = new StreamReader ( source );
@@ -46,6 +49,7 @@ public record UnicodeEmoji ( string Group, string Subgroup, string Name, string 
 
             if      (   line.StartsWith ( GroupPrefix,    StringComparison.Ordinal ) ) group    = line [ GroupPrefix   .Length.. ];
             else if (   line.StartsWith ( SubgroupPrefix, StringComparison.Ordinal ) ) subgroup = line [ SubgroupPrefix.Length.. ];
+            else if (   line.StartsWith ( VersionPrefix,  StringComparison.Ordinal ) ) parseVersion ( double.Parse ( line [ VersionPrefix.Length.. ], CultureInfo.InvariantCulture ) );
             else if ( ! line.StartsWith ( CommentPrefix,  StringComparison.Ordinal ) ) yield return ParseEmoji ( group, subgroup, line );
         }
     }

@@ -9,19 +9,19 @@ namespace Stylish.Unicode;
 
 public static class EmojiGenerator
 {
-    public static async Task < IReadOnlyCollection < UnicodeEmoji > > Generate ( Stream source, string destination, double emojiVersion = UnicodeEmoji.LatestVersion, CancellationToken cancellationToken = default )
+    public static async Task < IReadOnlyCollection < UnicodeEmoji > > Generate ( Stream source, string destination, CancellationToken cancellationToken = default )
     {
-        var emojis = new Dictionary < string, UnicodeEmoji > ( 4096 );
+        var emojis  = new Dictionary < string, UnicodeEmoji > ( 4096 );
+        var version = 0.0;
 
-        await foreach ( var emoji in UnicodeEmoji.Parse ( source, cancellationToken ) )
-            if ( emoji.Version <= emojiVersion )
-                if ( ! emojis.TryGetValue ( emoji.Name, out var existing ) || existing.Value.Length > emoji.Value.Length )
-                    emojis [ emoji.Name ] = emoji;
+        await foreach ( var emoji in UnicodeEmoji.Parse ( source, v => version = v, cancellationToken ) )
+            if ( ! emojis.TryGetValue ( emoji.Name, out var existing ) || existing.Value.Length > emoji.Value.Length )
+                emojis [ emoji.Name ] = emoji;
 
         using var emojiFile = File.CreateText ( Path.Combine ( destination, "Emoji.cs" ) );
 
-        await emojiFile.GenerateHeader ( "Emoji list", emojiVersion, cancellationToken ).ConfigureAwait ( false );
-        await emojiFile.GenerateEmojis ( emojis.Values,              cancellationToken ).ConfigureAwait ( false );
+        await emojiFile.GenerateHeader ( "Emoji list", version, cancellationToken ).ConfigureAwait ( false );
+        await emojiFile.GenerateEmojis ( emojis.Values,         cancellationToken ).ConfigureAwait ( false );
 
         var versions  = emojis.Values.ToLookup ( emoji => emoji.Version  ).OrderBy ( lookup => lookup.Key ).ToList ( );
         var groups    = emojis.Values.ToLookup ( emoji => emoji.Group    ).OrderBy ( lookup => lookup.Key ).ToList ( );
@@ -29,18 +29,18 @@ public static class EmojiGenerator
 
         using var emojiGroupFile = File.CreateText ( Path.Combine ( destination, "EmojiGroup.cs" ) );
 
-        await emojiGroupFile.GenerateHeader ( "Emoji groups", emojiVersion,             cancellationToken ).ConfigureAwait ( false );
+        await emojiGroupFile.GenerateHeader ( "Emoji groups", version,                  cancellationToken ).ConfigureAwait ( false );
         await emojiGroupFile.GenerateEnum   ( "EmojiGroup", FormatGroupSummary, groups, cancellationToken ).ConfigureAwait ( false );
 
         using var emojiSubgroupFile = File.CreateText ( Path.Combine ( destination, "EmojiSubgroup.cs" ) );
 
-        await emojiSubgroupFile.GenerateHeader ( "Emoji subgroups", emojiVersion,                   cancellationToken ).ConfigureAwait ( false );
+        await emojiSubgroupFile.GenerateHeader ( "Emoji subgroups", version,                        cancellationToken ).ConfigureAwait ( false );
         await emojiSubgroupFile.GenerateEnum   ( "EmojiSubgroup", FormatSubgroupSummary, subgroups, cancellationToken ).ConfigureAwait ( false );
 
         using var emojiMetadataFile = File.CreateText ( Path.Combine ( destination, "EmojiMetadata.cs" ) );
 
-        await emojiMetadataFile.GenerateHeader   ( "Emoji metadata", emojiVersion, cancellationToken ).ConfigureAwait ( false );
-        await emojiMetadataFile.GenerateMetadata ( versions, groups, subgroups,    cancellationToken ).ConfigureAwait ( false );
+        await emojiMetadataFile.GenerateHeader   ( "Emoji metadata", version,   cancellationToken ).ConfigureAwait ( false );
+        await emojiMetadataFile.GenerateMetadata ( versions, groups, subgroups, cancellationToken ).ConfigureAwait ( false );
 
         return emojis.Values;
     }

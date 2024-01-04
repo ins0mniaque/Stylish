@@ -1,19 +1,17 @@
-const string GeneratorDestination = "..\\..\\..\\..\\Stylish.Unicode.Emoji";
+const string DestinationDirectory = "..\\..\\..\\..\\Stylish.Unicode.Emoji";
 const string DataDirectory        = "..\\..\\..\\Data";
-const string DataFileName         = "emoji-test.txt";
 
-var emojis = (IReadOnlyCollection < UnicodeEmoji >) Array.Empty < UnicodeEmoji > ( );
+var emojis = (IReadOnlyCollection < UnicodeEmoji >) [ ];
 
 try
 {
     Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-    var unicodeVersion = UnicodeEmoji.LatestVersion;
-    var dataPath       = Path.Combine ( DataDirectory, DataFileName );
+    var dataPath = Path.Combine ( DataDirectory, UnicodeEmoji.DataFileName );
 
     if ( AnsiConsole.Confirm ( "Download latest source data?" ) )
     {
-        unicodeVersion = AnsiConsole.Ask ( "Unicode version?", UnicodeEmoji.LatestVersion );
+        var unicodeVersion = AnsiConsole.Ask ( "Unicode version?", UnicodeEmoji.LatestVersion );
 
         await AnsiConsole.Status     ( )
                          .Spinner    ( Spinner.Known.BouncingBar )
@@ -22,14 +20,12 @@ try
 
         async Task Download ( StatusContext context )
         {
-            using var data     = await UnicodeEmoji.DownloadSource ( ).ConfigureAwait ( false );
+            using var data     = await UnicodeEmoji.DownloadSource ( unicodeVersion ).ConfigureAwait ( false );
             using var dataFile = File.Create ( dataPath );
 
             await data.CopyToAsync ( dataFile ).ConfigureAwait ( false );
         }
     }
-
-    var emojiVersion = AnsiConsole.Ask ( "Emoji version?", unicodeVersion );
 
     using var dataFile = File.Open ( dataPath, FileMode.Open );
 
@@ -40,7 +36,7 @@ try
 
     async Task Generate ( StatusContext context )
     {
-        emojis = await EmojiGenerator.Generate ( dataFile, GeneratorDestination, emojiVersion ).ConfigureAwait ( false );
+        emojis = await EmojiGenerator.Generate ( dataFile, DestinationDirectory ).ConfigureAwait ( false );
     }
 }
 catch ( Exception exception )
@@ -51,7 +47,7 @@ when  ( exception is IOException or InvalidOperationException )
     return -1;
 }
 
-var tree = new Tree ( $"📁 { Path.GetFullPath ( GeneratorDestination ) }" );
+var tree = new Tree ( $"📁 { Path.GetFullPath ( DestinationDirectory ) }" );
 
 tree.AddNode ( "📄 Emoji.cs" );
 tree.AddNode ( "📄 EmojiGroup.cs" );
