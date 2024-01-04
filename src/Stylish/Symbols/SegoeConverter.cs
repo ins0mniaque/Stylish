@@ -3,7 +3,7 @@ using System.Text;
 
 using Stylish.Unicode;
 
-namespace Stylish.Fonts;
+namespace Stylish.Symbols;
 
 public static class SegoeConverter
 {

@@ -6,7 +6,7 @@ using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-using Stylish.Fonts;
+using Stylish.Symbols;
 using Stylish.Unicode;
 
 namespace Stylish;

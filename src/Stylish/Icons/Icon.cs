@@ -1,6 +1,6 @@
 using System.Windows;
 
-using Stylish.Fonts;
+using Stylish.Symbols;
 
 namespace Stylish;
 

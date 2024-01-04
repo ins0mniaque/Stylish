@@ -1,0 +1,59 @@
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Reflection;
+using System.Windows;
+using System.Windows.Markup;
+using System.Windows.Media;
+
+namespace Stylish;
+
+[ Ambient, Localizability ( LocalizationCategory.Ignore ), UsableDuringInitialization ( true ) ]
+[ SuppressMessage ( "Design", "CA1010:Generic interface should also be implemented", Justification = "ResourceDictionary" ) ]
+public class Fonts : ResourceDictionary
+{
+    private static readonly Uri FontsAssemblyUri = new Uri ( "pack://application:,,,/Stylish.Fonts;component/" );
+
+    private const string FontsAssemblyName = "Stylish.Fonts";
+
+    private const string RegularFontName  = "FluentSystemIcons-Regular";
+    private const string FilledFontName   = "FluentSystemIcons-Filled";
+    private const string FallbackFontName = "Segoe Fluent Icons, Segoe MDL2 Assets";
+    private const string EmojiFontName    = "Segoe UI Emoji";
+
+    public Fonts ( )
+    {
+        var fonts = TryLoadFontsAssembly ( );
+
+        if ( fonts is not null )
+        {
+            var regular = new FontFamily ( FontsAssemblyUri, "./#" + RegularFontName );
+            var filled  = new FontFamily ( FontsAssemblyUri, "./#" + FilledFontName  );
+
+            Add ( Icon.FontKey,           regular );
+            Add ( Icon.BackgroundFontKey, filled  );
+        }
+        else
+        {
+            var fallback = new FontFamily ( FallbackFontName );
+
+            Add ( Icon.FontKey,           fallback );
+            Add ( Icon.BackgroundFontKey, null     );
+        }
+
+        var emoji = new FontFamily ( EmojiFontName );
+
+        Add ( Emoji.FontKey, emoji );
+    }
+
+    private static Assembly? TryLoadFontsAssembly ( )
+    {
+        try
+        {
+            return Assembly.Load ( FontsAssemblyName );
+        }
+        catch ( FileNotFoundException )
+        {
+            return null;
+        }
+    }
+}

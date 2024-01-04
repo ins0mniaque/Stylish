@@ -13,6 +13,7 @@
             </ß:ThemeResourceDictionary.Theme>
             <ResourceDictionary.MergedDictionaries>
                 <ß:Styles />
+                <ß:Fonts />
             </ResourceDictionary.MergedDictionaries>
         </ß:ThemeResourceDictionary>
     </Application.Resources>

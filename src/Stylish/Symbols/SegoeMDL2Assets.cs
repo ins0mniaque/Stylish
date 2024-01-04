@@ -1,4 +1,4 @@
-namespace Stylish.Fonts;
+namespace Stylish.Symbols;
 
 public enum SegoeMDL2Assets
 {
