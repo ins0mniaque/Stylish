@@ -14,7 +14,7 @@ public record UnicodeEmoji ( string Group, string Subgroup, string Name, string 
         return new Uri ( string.Format ( CultureInfo.InvariantCulture, SourceUri, unicodeVersion ) );
     }
 
-    public static async IAsyncEnumerable < UnicodeEmoji > Download ( double unicodeVersion = LatestVersion, [ EnumeratorCancellation ] CancellationToken cancellationToken = default )
+    public static async Task < Stream > DownloadSource ( double unicodeVersion = LatestVersion, CancellationToken cancellationToken = default )
     {
         using var httpClient = new HttpClient ( );
 
@@ -22,20 +22,18 @@ public record UnicodeEmoji ( string Group, string Subgroup, string Name, string 
 
         response.EnsureSuccessStatusCode ( );
 
-        using var stream = await response.Content.ReadAsStreamAsync ( cancellationToken ).ConfigureAwait ( false );
-        using var reader = new StreamReader ( stream );
-
-        await foreach ( var emoji in Parse ( reader, cancellationToken ).WithCancellation ( cancellationToken ) )
-            yield return emoji;
+        return await response.Content.ReadAsStreamAsync ( cancellationToken ).ConfigureAwait ( false );
     }
 
-    public static async IAsyncEnumerable < UnicodeEmoji > Parse ( StreamReader reader, [ EnumeratorCancellation ] CancellationToken cancellationToken = default )
+    public static async IAsyncEnumerable < UnicodeEmoji > Parse ( Stream source, [ EnumeratorCancellation ] CancellationToken cancellationToken = default )
     {
-        ArgumentNullException.ThrowIfNull ( reader );
+        ArgumentNullException.ThrowIfNull ( source );
 
         const string GroupPrefix    = "# group: ";
         const string SubgroupPrefix = "# subgroup: ";
         const string CommentPrefix  = "#";
+
+        using var reader = new StreamReader ( source );
 
         var group    = string.Empty;
         var subgroup = string.Empty;

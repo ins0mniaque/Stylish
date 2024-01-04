@@ -9,11 +9,11 @@ namespace Stylish.Unicode;
 
 public static class EmojiGenerator
 {
-    public static async Task < IReadOnlyCollection < UnicodeEmoji > > Generate ( string destination, double unicodeVersion = UnicodeEmoji.LatestVersion, double emojiVersion = UnicodeEmoji.LatestVersion, CancellationToken cancellationToken = default )
+    public static async Task < IReadOnlyCollection < UnicodeEmoji > > Generate ( Stream source, string destination, double emojiVersion = UnicodeEmoji.LatestVersion, CancellationToken cancellationToken = default )
     {
         var emojis = new Dictionary < string, UnicodeEmoji > ( 4096 );
 
-        await foreach ( var emoji in UnicodeEmoji.Download ( unicodeVersion, cancellationToken ) )
+        await foreach ( var emoji in UnicodeEmoji.Parse ( source, cancellationToken ) )
             if ( emoji.Version <= emojiVersion )
                 if ( ! emojis.TryGetValue ( emoji.Name, out var existing ) || existing.Value.Length > emoji.Value.Length )
                     emojis [ emoji.Name ] = emoji;
