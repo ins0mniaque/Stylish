@@ -57,7 +57,6 @@ public static class EmojiGenerator
         await WriteLine ( "/// <remarks>" );
         await WriteLine ( "/// Source: {0}", UnicodeEmoji.GetSourceUri ( unicodeVersion ) );
         await WriteLine ( "/// </remarks>" );
-        await WriteLine ( );
 
         ConfiguredTaskAwaitable WriteLine ( string? format = null, params object [  ] args )
         {
@@ -124,7 +123,7 @@ public static class EmojiGenerator
 
         var last = groups [ ^1 ];
 
-        foreach (var group in groups.SkipLast ( 1 ) )
+        foreach ( var group in groups.SkipLast ( 1 ) )
         {
             await WriteLine ( "    /// <summary>{0} ({1})</summary>", formatSummary    ( group.Key ), FormatEmojiCount ( group.Count ( ) ) );
             await WriteLine ( "    {0},",                             CreateIdentifier ( group.Key ) );

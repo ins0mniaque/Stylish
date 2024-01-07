@@ -7,7 +7,6 @@ namespace Stylish.Unicode;
 /// <remarks>
 /// Source: https://unicode.org/Public/emoji/15.1/emoji-test.txt
 /// </remarks>
-
 public enum EmojiGroup
 {
     None,

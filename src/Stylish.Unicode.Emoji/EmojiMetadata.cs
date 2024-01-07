@@ -7,7 +7,6 @@ namespace Stylish.Unicode;
 /// <remarks>
 /// Source: https://unicode.org/Public/emoji/15.1/emoji-test.txt
 /// </remarks>
-
 public static class EmojiMetadata
 {
     public static double GetVersion ( this Emoji emoji ) => emoji switch
