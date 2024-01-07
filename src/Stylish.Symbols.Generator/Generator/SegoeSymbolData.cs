@@ -14,7 +14,7 @@ public partial record SegoeSymbolData ( string Name, int Value )
 
         var input = await reader.ReadToEndAsync ( cancellationToken ).ConfigureAwait ( false );
 
-        foreach ( Match match in parser.Matches ( input ) )
+        foreach ( var match in parser.Matches ( input ).OfType < Match > ( ) )
             yield return new SegoeSymbolData ( match.Groups [ "Name" ].Value.Trim ( ),
                                                int.Parse ( match.Groups [ "Value" ].Value, NumberStyles.HexNumber, CultureInfo.InvariantCulture ) );
     }

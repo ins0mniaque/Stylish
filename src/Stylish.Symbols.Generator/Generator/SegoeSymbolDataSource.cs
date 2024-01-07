@@ -2,6 +2,8 @@ namespace Stylish;
 
 public class SegoeSymbolDataSource
 {
+    public static (string Name, Uri Uri) Reference { get; } = ("Segoe Fluent Icons", new Uri ( "https://github.com/MicrosoftDocs/windows-dev-docs/blob/docs/hub/apps/design/style/segoe-fluent-icons-font.md" ));
+
     public SegoeSymbolDataSource ( string path )
     {
         Path = path;

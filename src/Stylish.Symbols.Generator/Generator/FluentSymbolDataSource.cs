@@ -4,6 +4,15 @@ namespace Stylish;
 
 public class FluentSymbolDataSource
 {
+    public static IEnumerable < (string Name, Uri Uri) > GetReferences ( string version )
+    {
+        const string RegularUriFormat = "https://github.com/{0}/{1}/blob/{2}/icons_regular.md";
+        const string FilledUriFormat  = "https://github.com/{0}/{1}/blob/{2}/icons_filled.md";
+
+        yield return ("FluentSystemIcons (Regular)", new Uri ( string.Format ( CultureInfo.InvariantCulture, RegularUriFormat, "microsoft", "fluentui-system-icons", version ) ));
+        yield return ("FluentSystemIcons (Filled)",  new Uri ( string.Format ( CultureInfo.InvariantCulture, FilledUriFormat,  "microsoft", "fluentui-system-icons", version ) ));
+    }
+
     public FluentSymbolDataSource ( string path )
     {
         Path = path;

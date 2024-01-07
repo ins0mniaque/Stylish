@@ -56,13 +56,12 @@ var tree = new Tree ( $"📁 { Path.GetFullPath ( DestinationDirectory ) }" );
 
 tree.AddNode ( "📄 FluentSymbol.cs" );
 tree.AddNode ( "📄 SegoeSymbol.cs" );
-tree.AddNode ( "📄 SymbolConverter.cs" );
 
 var table = new Table ( ).SimpleBorder ( )
                          .BorderColor  ( Color.Grey );
 
 table.AddColumn ( new TableColumn ( "Overview" ) );
-table.AddColumn ( new TableColumn ( string.Empty ).Footer ( $"[grey]3 files, { fluentSymbols.Count + segoeSymbols.Count } symbols[/]" ) );
+table.AddColumn ( new TableColumn ( string.Empty ).Footer ( $"[grey]2 files, { fluentSymbols.Count + segoeSymbols.Count } symbols[/]" ) );
 table.AddRow    ( new Markup ( "[yellow]Files[/]" ), tree );
 
 AnsiConsole.Write ( table );
