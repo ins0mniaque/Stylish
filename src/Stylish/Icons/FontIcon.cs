@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace Stylish;
 
-public class FontIcon : ColorIconElement
+public class FontIcon : IconElement
 {
     [ Bindable ( true ), Category ( "Appearance" ) ]
     public string? Glyph
@@ -17,15 +17,6 @@ public class FontIcon : ColorIconElement
     }
 
     public static readonly DependencyProperty GlyphProperty = RegisterVisualProperty < FontIcon, string? > ( nameof ( Glyph ), null );
-
-    [ Bindable ( true ), Category ( "Appearance" ) ]
-    public string? BackgroundGlyph
-    {
-        get => (string?) GetValue ( BackgroundGlyphProperty );
-        set => SetValue ( BackgroundGlyphProperty, value );
-    }
-
-    public static readonly DependencyProperty BackgroundGlyphProperty = RegisterVisualProperty < FontIcon, string? > ( nameof ( BackgroundGlyph ), null );
 
     /// <inheritdoc cref="Control.FontFamily" />
     [ Bindable ( true ), Category ( "Appearance" ) ]
@@ -85,16 +76,6 @@ public class FontIcon : ColorIconElement
     /// <inheritdoc cref="Control.FontWeightProperty" />
     public static readonly DependencyProperty FontWeightProperty = RegisterVisualProperty < FontIcon > ( TextElement.FontWeightProperty );
 
-    [ Bindable ( true ), Category ( "Appearance" ) ]
-    [ Localizability ( LocalizationCategory.Font ) ]
-    public FontFamily BackgroundFontFamily
-    {
-        get => (FontFamily) GetValue ( BackgroundFontFamilyProperty );
-        set => SetValue ( BackgroundFontFamilyProperty, value );
-    }
-
-    public static readonly DependencyProperty BackgroundFontFamilyProperty = RegisterVisualProperty < FontIcon, FontFamily > ( nameof ( BackgroundFontFamily ), SystemFonts.MessageFontFamily );
-
     protected override void OnDpiChanged ( DpiScale oldDpi, DpiScale newDpi )
     {
         base.OnDpiChanged ( oldDpi, newDpi );
@@ -128,22 +109,11 @@ public class FontIcon : ColorIconElement
                                    VisualTreeHelper.GetDpi ( this ).PixelsPerDip );
     }
 
-    private FormattedText? backgroundText;
     private FormattedText? foregroundText;
 
     protected override Size MeasureIcon ( )
     {
         var iconSize = default ( Size );
-
-        backgroundText = null;
-        if ( BackgroundGlyph is not null && Background is not null )
-            backgroundText = FormatText ( BackgroundGlyph, BackgroundFontFamily, Background );
-
-        if ( backgroundText is not null )
-        {
-            iconSize.Width  = Math.Max ( iconSize.Width,  backgroundText.WidthIncludingTrailingWhitespace );
-            iconSize.Height = Math.Max ( iconSize.Height, backgroundText.Height );
-        }
 
         foregroundText = null;
         if ( Glyph is not null && Foreground is not null )
@@ -162,10 +132,8 @@ public class FontIcon : ColorIconElement
     {
         ArgumentNullException.ThrowIfNull ( drawingContext );
 
-        drawingContext.DrawText ( backgroundText, default );
         drawingContext.DrawText ( foregroundText, default );
 
-        backgroundText = null;
         foregroundText = null;
     }
 }
@@ -200,19 +168,5 @@ public abstract class FontIcon < TSymbol > : FontIcon where TSymbol : struct
     {
         get => (FontFamily) GetValue ( FontFamilyProperty );
         set => SetValue ( FontFamilyProperty, value );
-    }
-
-    [ EditorBrowsable ( EditorBrowsableState.Never ) ]
-    public new string? BackgroundGlyph
-    {
-        get => (string?) GetValue ( BackgroundGlyphProperty );
-        set => SetValue ( BackgroundGlyphProperty, value );
-    }
-
-    [ EditorBrowsable ( EditorBrowsableState.Never ) ]
-    public new FontFamily BackgroundFontFamily
-    {
-        get => (FontFamily) GetValue ( BackgroundFontFamilyProperty );
-        set => SetValue ( BackgroundFontFamilyProperty, value );
     }
 }

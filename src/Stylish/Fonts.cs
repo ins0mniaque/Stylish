@@ -15,10 +15,10 @@ public class Fonts : ResourceDictionary
 
     private const string FontsAssemblyName = "Stylish.Fonts";
 
-    private const string RegularFontName  = "FluentSystemIcons-Regular";
-    private const string FilledFontName   = "FluentSystemIcons-Filled";
-    private const string FallbackFontName = "Segoe Fluent Icons, Segoe MDL2 Assets";
-    private const string EmojiFontName    = "Segoe UI Emoji";
+    private const string RegularFontName = "FluentSystemIcons-Regular";
+    private const string FilledFontName  = "FluentSystemIcons-Filled";
+    private const string SegoeFontName   = "Segoe Fluent Icons, Segoe MDL2 Assets";
+    private const string EmojiFontName   = "Segoe UI Emoji";
 
     public Fonts ( )
     {
@@ -29,16 +29,21 @@ public class Fonts : ResourceDictionary
             var regular = new FontFamily ( FontsAssemblyUri, "./#" + RegularFontName );
             var filled  = new FontFamily ( FontsAssemblyUri, "./#" + FilledFontName  );
 
-            Add ( Icon.FontKey,           regular );
-            Add ( Icon.BackgroundFontKey, filled  );
+            Add ( FluentIcon.RegularFontKey,  regular );
+            Add ( FluentIcon.FilledFontKey,   filled  );
         }
         else
         {
-            var fallback = new FontFamily ( FallbackFontName );
+            var regular = new FontFamily ( RegularFontName );
+            var filled  = new FontFamily ( FilledFontName  );
 
-            Add ( Icon.FontKey,           fallback );
-            Add ( Icon.BackgroundFontKey, null     );
+            Add ( FluentIcon.RegularFontKey,  regular );
+            Add ( FluentIcon.FilledFontKey,   filled  );
         }
+
+        var segoe = new FontFamily ( SegoeFontName );
+
+        Add ( SegoeIcon.FontKey, segoe );
 
         var emoji = new FontFamily ( EmojiFontName );
 

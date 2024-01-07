@@ -24,15 +24,7 @@
         <TextBlock DockPanel.Dock="Top"
                    Margin="4 0 0 0"
                    FontSize="20">
-            <ß:Segoe Emoji="ArtistPalette" /> Stylish
-            <Run Text="{ß:Segoe MDL2=Accident}" FontStyle="Normal" BaselineAlignment="Baseline" /> Sty
-            <Run Text="{ß:Segoe MDL2=Accident}" FontStyle="Italic" BaselineAlignment="Bottom" /> Sty
-            <Run Text="{ß:Segoe MDL2=Accident}" FontStyle="Italic" BaselineAlignment="Center" /> Sty
-            <Run Text="{ß:Segoe MDL2=Accident}" FontStyle="Italic" BaselineAlignment="Subscript" /> Sty
-            <Run Text="{ß:Segoe MDL2=Accident}" FontStyle="Italic" BaselineAlignment="Superscript" /> Sty
-            <Run Text="{ß:Segoe MDL2=Accident}" FontStyle="Italic" BaselineAlignment="TextBottom" /> Sty
-            <Run Text="{ß:Segoe MDL2=Accident}" FontStyle="Italic" BaselineAlignment="TextTop" /> Sty
-            <Run Text="{ß:Segoe MDL2=Accident}" FontStyle="Italic" BaselineAlignment="Top" /> Sty
+            Stylish
         </TextBlock>
 
         <StackPanel TextElement.FontSize="24">
@@ -42,75 +34,41 @@
             <local:ColorTextBlock Text="ABCDEFGH" />
             <RichTextBox />
             <local:ColorRichTextBox />
-            <TextBlock Text="{ß:Symbol Emoji=AButtonBloodType}" />
-            <ß:FontIcon Glyph="A" BackgroundGlyph="B" Background="DeepPink" MaxWidth="36" />
-            <ß:FontIcon Glyph="A" BackgroundGlyph="B" Background="DeepPink" Width="48" />
-            <ß:FontIcon Glyph="A" BackgroundGlyph="B" Background="DeepPink" Height="48" />
-            <ß:FontIcon Glyph="A" BackgroundGlyph="B" Background="DeepPink" Width="48" Height="48" />
-            <ß:FontIcon Glyph="A" BackgroundGlyph="B" Background="DeepPink" Width="48" Height="48" Stretch="None" />
             <ß:Emoji Symbol="AdmissionTickets" />
             <ß:PathIcon Data="{StaticResource TextGeometry}" Background="DeepPink" />
             <ß:PathIcon Data="{StaticResource TextGeometry}" Background="Chartreuse" Foreground="White" StrokeThickness="4" Height="80" />
             <ß:BitmapIcon Source="bitmap.png" Height="64" Width="64" />
             <ß:BitmapIcon Source="bitmap.png" Height="64" Width="64" ShowAsMonochrome="False" />
             <StackPanel Orientation="Horizontal">
-                <ß:Segoe Symbol="Calculator" />
-                <ß:Segoe Fluent="StockDown" />
-                <ß:Segoe MDL2="StockDown" />
-                <ß:Segoe Fluent="Delete" />
-                <ß:Segoe MDL2="Delete" />
-                <ß:Segoe Symbol="Delete" />
-            </StackPanel>
-            <StackPanel TextElement.Foreground="DeepPink" Orientation="Horizontal">
-                <ß:Symbol Emoji="Mage_DarkSkinTone" />
-                <ß:Symbol Emoji="Man" />
-                <ß:Symbol Emoji="DarkSkinTone" />
-                <ß:Symbol Emoji="Man" Format="{ß:Segoe Emoji=DarkSkinTone, Format='{}{{0}}{0}'}" />
+                <ß:SegoeIcon Symbol="Calculator" />
+                <ß:SegoeIcon Symbol="StockDown" />
+                <ß:SegoeIcon Symbol="StockUp" />
+                <ß:SegoeIcon Symbol="Delete" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <ß:Segoe Emoji="Mage_DarkSkinTone" />
-                <ß:Segoe Emoji="Man" />
-                <ß:Segoe Emoji="DarkSkinTone" />
-                <ß:Segoe Emoji="Man" Format="{ß:Segoe Emoji=DarkSkinTone, Format='{}{{0}}{0}'}" />
+                <ß:FluentIcon Symbol="Calculator24" />
+                <ß:FluentIcon Symbol="ArrowDown24" />
+                <ß:FluentIcon Symbol="ArrowUp24" />
+                <ß:FluentIcon Symbol="Delete24" />
             </StackPanel>
-            <TextBlock Text="{ß:Segoe MDL2=ViewDashboard, Format='{}{0} Magic {0}{0}{0}'}" />
-            <TextBlock>
-                <ß:Segoe Emoji="Man_DarkSkinTone" />
-                <ß:Segoe Emoji="ManInTuxedo" />
-                <ß:Segoe Emoji="DarkSkinTone" />
-                <ß:Segoe Emoji="Kiss_WomanWomanMediumSkinToneMediumDarkSkinTone" />
-                <ß:Segoe MDL2="AccidentSolid" /> Magic
-            </TextBlock>
-            <TextBlock Foreground="DeepPink">
-                <ß:Symbol Emoji="Man_DarkSkinTone" />
-                <ß:Symbol Emoji="ManInTuxedo" />
-                <ß:Symbol Emoji="DarkSkinTone" />
-                <ß:Symbol Emoji="Kiss_WomanWomanMediumSkinToneMediumDarkSkinTone" />
-                <ß:Segoe MDL2="AccidentSolid" /> Magic
-            </TextBlock>
-            <TextBlock FontFamily="{ß:Segoe}">
-                <TextBlock.Style>
-                    <Style TargetType="TextBlock">
-                        <Setter Property="Text" Value="{ß:Segoe MDL2=Error, Format='{}{0} Magic {0}{0}{0}'}" />
-                        <Style.Triggers>
-                            <Trigger Property="Text" Value="{ß:Segoe MDL2=Walk}">
-                                <Setter Property="Foreground" Value="DeepPink" />
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Text" Value="{ß:Segoe MDL2=AccidentSolid}" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
-            <!--
-            <RichTextBox>
-                <FlowDocument>
-                    <ß:Segoe MDL2="AccidentSolid" />
-                </FlowDocument>
-            </RichTextBox>
-            -->
-            <Button Content="{ß:Segoe Symbol=AddFriend, Format='{}{0} A {0} B {0} C {0}'}" />
+            <StackPanel Orientation="Horizontal">
+                <ß:FluentIcon Symbol="Calculator16" />
+                <ß:FluentIcon Symbol="ArrowDown48" />
+                <ß:FluentIcon Symbol="ArrowUp48" />
+                <ß:FluentIcon Symbol="Delete48" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <ß:FluentIcon Symbol="CalculatorFilled16" />
+                <ß:FluentIcon Symbol="ArrowDownFilled48" />
+                <ß:FluentIcon Symbol="ArrowUpFilled48" />
+                <ß:FluentIcon Symbol="DeleteFilled48" />
+            </StackPanel>
+            <StackPanel TextElement.Foreground="DeepPink" Orientation="Horizontal">
+                <ß:Emoji Symbol="Mage_DarkSkinTone" />
+                <ß:Emoji Symbol="Man" />
+                <ß:Emoji Symbol="DarkSkinTone" />
+                <ß:Emoji Symbol="Kiss_WomanWomanMediumSkinToneMediumDarkSkinTone" />
+            </StackPanel>
         </StackPanel>
 
     </DockPanel>

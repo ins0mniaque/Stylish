@@ -1,7 +1,5 @@
 using System.Windows;
 
-using Stylish.Symbols;
-
 namespace Stylish;
 
 public class Emoji : FontIcon < Unicode.Emoji >
@@ -13,5 +11,8 @@ public class Emoji : FontIcon < Unicode.Emoji >
         SetResourceReference ( FontFamilyProperty, FontKey );
     }
 
-    protected override void OnSymbolChanged ( DependencyPropertyChangedEventArgs e ) => Glyph = Symbol.ToUnicode ( );
+    protected override void OnSymbolChanged ( DependencyPropertyChangedEventArgs e )
+    {
+        Glyph = Unicode.EmojiEncoding.Decode ( (long) Symbol );
+    }
 }

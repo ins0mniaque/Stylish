@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -8,7 +9,7 @@ using System.Windows.Shapes;
 namespace Stylish;
 
 [ ContentProperty ( nameof ( Data ) ) ]
-public class PathIcon : ColorIconElement
+public class PathIcon : IconElement
 {
     /// <inheritdoc cref="Path.Data" />
     [ Bindable ( true ), Category ( "Appearance" ) ]
@@ -19,6 +20,16 @@ public class PathIcon : ColorIconElement
     }
 
     public static readonly DependencyProperty DataProperty = RegisterVisualProperty < PathIcon > ( Path.DataProperty );
+
+    /// <inheritdoc cref="Control.Background" />
+    [ Bindable ( true ), Category ( "Appearance" ) ]
+    public Brush Background
+    {
+        get => (Brush) GetValue ( BackgroundProperty );
+        set => SetValue ( BackgroundProperty, value );
+    }
+
+    public static readonly DependencyProperty BackgroundProperty = RegisterVisualProperty < PathIcon > ( TextElement.BackgroundProperty );
 
     /// <inheritdoc cref="Shape.StrokeThickness" />
     [ Bindable ( true ), Category ( "Appearance" ) ]
