@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net7.0;net6.0</TargetFrameworks>
+
+    <Description>Stylish.Symbols provides symbol lists and metadata for the Microsoft Segoe Fluent Icons and Microsoft Fluent UI System Icons fonts.</Description>
+    <PackageTags>stylish,font,icon,segoe,fluent,encoding,decoding,metadata</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

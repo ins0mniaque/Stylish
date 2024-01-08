@@ -1,4 +1,4 @@
-const string DestinationDirectory = "..\\..\\..\\..\\Stylish\\Symbols";
+const string DestinationDirectory = "..\\..\\..\\..\\Stylish.Symbols";
 const string DataDirectory        = "..\\..\\..\\Data";
 
 var fluentSymbols = (IReadOnlyCollection < FluentSymbolData >) [ ];

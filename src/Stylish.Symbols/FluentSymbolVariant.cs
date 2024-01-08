@@ -1,4 +1,4 @@
-﻿namespace Stylish.Symbols;
+namespace Stylish.Symbols;
 
 public enum FluentSymbolVariant
 {

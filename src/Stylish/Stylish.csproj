@@ -38,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Stylish.Symbols\Stylish.Symbols.csproj" />
     <ProjectReference Include="..\Stylish.Unicode.Emoji\Stylish.Unicode.Emoji.csproj" />
   </ItemGroup>
 
