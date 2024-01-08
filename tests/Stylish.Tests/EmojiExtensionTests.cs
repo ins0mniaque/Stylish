@@ -1,5 +1,7 @@
 using System.Windows.Controls;
 
+using Stylish.Controls;
+
 namespace Stylish.Tests;
 
 [ TestClass ]

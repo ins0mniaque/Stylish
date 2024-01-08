@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0-windows;net7.0-windows;net6.0-windows</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+
+    <Description>Stylish.Emoji provides color emoji support for the WPF framework.</Description>
+    <PackageTags>stylish,wpf,ui,xaml,color,emoji</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Windows.Markup.XmlnsPrefix">
+      <_Parameter1>urn:stylish:schema</_Parameter1>
+      <_Parameter2>ß</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Windows.Markup.XmlnsDefinition">
+      <_Parameter1>urn:stylish:schema</_Parameter1>
+      <_Parameter2>Stylish.Controls</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Stylish\Stylish.csproj" />
+    <ProjectReference Include="..\Stylish.DirectWrite\Stylish.DirectWrite.csproj" />
+    <ProjectReference Include="..\Stylish.Unicode.Emoji\Stylish.Unicode.Emoji.csproj" />
+  </ItemGroup>
+
+</Project>

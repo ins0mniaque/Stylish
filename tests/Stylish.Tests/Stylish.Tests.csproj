@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Stylish\Stylish.csproj" />
+    <ProjectReference Include="..\..\src\Stylish.Emoji\Stylish.Emoji.csproj" />
   </ItemGroup>
 
 </Project>

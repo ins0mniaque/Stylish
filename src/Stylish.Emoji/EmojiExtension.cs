@@ -1,4 +1,4 @@
-namespace Stylish;
+namespace Stylish.Controls;
 
 public class EmojiExtension : FontIconExtension < Emoji, Unicode.Emoji >
 {

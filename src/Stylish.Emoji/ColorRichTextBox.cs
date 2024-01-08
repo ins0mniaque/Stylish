@@ -2,7 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
-namespace Stylish.Demo;
+namespace Stylish.Controls;
 
 public class ColorRichTextBox : RichTextBox
 {

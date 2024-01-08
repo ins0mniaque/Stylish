@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylish.Symbols.Generator",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylish.Symbols", "src\Stylish.Symbols\Stylish.Symbols.csproj", "{3161E6F1-9FC2-48FB-9CF9-E72ECBBE8A66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stylish.Emoji", "src\Stylish.Emoji\Stylish.Emoji.csproj", "{2742C5E8-3734-482C-9E94-45019F0599B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{3161E6F1-9FC2-48FB-9CF9-E72ECBBE8A66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3161E6F1-9FC2-48FB-9CF9-E72ECBBE8A66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3161E6F1-9FC2-48FB-9CF9-E72ECBBE8A66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2742C5E8-3734-482C-9E94-45019F0599B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2742C5E8-3734-482C-9E94-45019F0599B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2742C5E8-3734-482C-9E94-45019F0599B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2742C5E8-3734-482C-9E94-45019F0599B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +106,7 @@ Global
 		{A4D54585-ED91-43D1-9E8B-22EF1C565200} = {854F34C9-05E7-488A-809C-CA265225F612}
 		{F32D937B-A75A-42A2-98D3-A508817286B4} = {854F34C9-05E7-488A-809C-CA265225F612}
 		{3161E6F1-9FC2-48FB-9CF9-E72ECBBE8A66} = {854F34C9-05E7-488A-809C-CA265225F612}
+		{2742C5E8-3734-482C-9E94-45019F0599B0} = {854F34C9-05E7-488A-809C-CA265225F612}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DC13AB97-5B4B-432F-976D-74083843F572}

@@ -19,6 +19,7 @@ public class Fonts : ResourceDictionary
     private const string FilledFontName  = "FluentSystemIcons-Filled";
     private const string SegoeFontName   = "Segoe Fluent Icons, Segoe MDL2 Assets";
     private const string EmojiFontName   = "Segoe UI Emoji";
+    private const string EmojiFontKey    = "Emoji.Font";
 
     public Fonts ( )
     {
@@ -29,16 +30,16 @@ public class Fonts : ResourceDictionary
             var regular = new FontFamily ( FontsAssemblyUri, "./#" + RegularFontName );
             var filled  = new FontFamily ( FontsAssemblyUri, "./#" + FilledFontName  );
 
-            Add ( FluentIcon.RegularFontKey,  regular );
-            Add ( FluentIcon.FilledFontKey,   filled  );
+            Add ( FluentIcon.RegularFontKey, regular );
+            Add ( FluentIcon.FilledFontKey,  filled  );
         }
         else
         {
             var regular = new FontFamily ( RegularFontName );
             var filled  = new FontFamily ( FilledFontName  );
 
-            Add ( FluentIcon.RegularFontKey,  regular );
-            Add ( FluentIcon.FilledFontKey,   filled  );
+            Add ( FluentIcon.RegularFontKey, regular );
+            Add ( FluentIcon.FilledFontKey,  filled  );
         }
 
         var segoe = new FontFamily ( SegoeFontName );
@@ -47,7 +48,7 @@ public class Fonts : ResourceDictionary
 
         var emoji = new FontFamily ( EmojiFontName );
 
-        Add ( Emoji.FontKey, emoji );
+        Add ( new FontResourceKey ( EmojiFontKey ), emoji );
     }
 
     private static Assembly? TryLoadFontsAssembly ( )

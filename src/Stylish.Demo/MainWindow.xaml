@@ -28,12 +28,12 @@
         </TextBlock>
 
         <StackPanel TextElement.FontSize="24">
-            <TextBlock            Text="🐋📈🎏🔨💃🙆🐔💌💠😾" />
-            <local:ColorTextBlock Text="🐋📈🎏🔨💃🙆🐔💌💠😾" />
-            <TextBlock            Text="ABCDEFGH" />
-            <local:ColorTextBlock Text="ABCDEFGH" />
+            <TextBlock        Text="🐋📈🎏🔨💃🙆🐔💌💠😾" />
+            <ß:ColorTextBlock Text="🐋📈🎏🔨💃🙆🐔💌💠😾" />
+            <TextBlock        Text="ABCDEFGH" />
+            <ß:ColorTextBlock Text="ABCDEFGH" />
             <RichTextBox />
-            <local:ColorRichTextBox />
+            <ß:ColorRichTextBox />
             <ContentControl Content="{ß:Emoji AdmissionTickets}" />
             <ß:PathIcon Data="{StaticResource TextGeometry}" Background="DeepPink" />
             <ß:PathIcon Data="{StaticResource TextGeometry}" Background="Chartreuse" Foreground="White" StrokeThickness="4" Height="80" />

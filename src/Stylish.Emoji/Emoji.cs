@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace Stylish;
+namespace Stylish.Controls;
 
 public class Emoji : FontIcon < Unicode.Emoji >
 {

@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Stylish\Stylish.csproj" />
-    <ProjectReference Include="..\Stylish.DirectWrite\Stylish.DirectWrite.csproj" />
+    <ProjectReference Include="..\Stylish.Emoji\Stylish.Emoji.csproj" />
     <ProjectReference Include="..\Stylish.Fonts\Stylish.Fonts.csproj" />
   </ItemGroup>
 
