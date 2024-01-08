@@ -11,7 +11,7 @@ namespace Stylish;
 public class BitmapIcon : IconElement
 {
     /// <inheritdoc cref="Image.Source" />
-    [ Bindable(true), Category("Appearance") ]
+    [ Bindable ( true ), Category ( "Appearance" ) ]
     public BitmapSource Source
     {
         get => (BitmapSource) GetValue ( SourceProperty );
@@ -20,7 +20,7 @@ public class BitmapIcon : IconElement
 
     public static readonly DependencyProperty SourceProperty = RegisterVisualProperty < BitmapIcon, BitmapSource? > ( nameof ( Source ), null );
 
-    [ Bindable(true), Category("Appearance") ]
+    [ Bindable ( true ), Category ( "Appearance" ) ]
     public bool ShowAsMonochrome
     {
         get => (bool) GetValue ( ShowAsMonochromeProperty );

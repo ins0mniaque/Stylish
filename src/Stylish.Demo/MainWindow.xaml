@@ -34,7 +34,7 @@
             <local:ColorTextBlock Text="ABCDEFGH" />
             <RichTextBox />
             <local:ColorRichTextBox />
-            <ß:Emoji Symbol="AdmissionTickets" />
+            <ContentControl Content="{ß:Emoji AdmissionTickets}" />
             <ß:PathIcon Data="{StaticResource TextGeometry}" Background="DeepPink" />
             <ß:PathIcon Data="{StaticResource TextGeometry}" Background="Chartreuse" Foreground="White" StrokeThickness="4" Height="80" />
             <ß:BitmapIcon Source="bitmap.png" Height="64" Width="64" />
