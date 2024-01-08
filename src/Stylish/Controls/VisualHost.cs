@@ -1,7 +1,7 @@
 using System.Windows;
 using System.Windows.Media;
 
-namespace Stylish;
+namespace Stylish.Controls;
 
 public abstract class VisualHost : FrameworkElement
 {

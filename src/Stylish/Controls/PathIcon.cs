@@ -6,7 +6,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace Stylish;
+namespace Stylish.Controls;
 
 [ ContentProperty ( nameof ( Data ) ) ]
 public class PathIcon : IconElement

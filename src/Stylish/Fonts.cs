@@ -5,6 +5,8 @@ using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Media;
 
+using Stylish.Controls;
+
 namespace Stylish;
 
 [ Ambient, Localizability ( LocalizationCategory.Ignore ), UsableDuringInitialization ( true ) ]

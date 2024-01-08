@@ -5,7 +5,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Stylish;
+namespace Stylish.Controls;
 
 public abstract class IconElement : VisualHost
 {

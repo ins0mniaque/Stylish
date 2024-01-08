@@ -5,7 +5,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace Stylish;
+namespace Stylish.Controls;
 
 [ ContentProperty ( nameof ( Source ) ) ]
 public class BitmapIcon : IconElement

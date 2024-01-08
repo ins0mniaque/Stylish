@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
 
-namespace Stylish;
+namespace Stylish.Controls;
 
 public abstract class FontIconExtension < TIcon, TSymbol > : MarkupExtension where TIcon : FontIcon < TSymbol >, new ( ) where TSymbol : struct
 {

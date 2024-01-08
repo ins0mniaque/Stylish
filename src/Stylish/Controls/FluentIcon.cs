@@ -1,8 +1,8 @@
-﻿using System.Windows;
+using System.Windows;
 
 using Stylish.Symbols;
 
-namespace Stylish;
+namespace Stylish.Controls;
 
 public class FluentIcon : FontIcon < FluentSymbol >
 {

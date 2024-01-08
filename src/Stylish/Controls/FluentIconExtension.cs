@@ -1,6 +1,6 @@
-﻿using Stylish.Symbols;
+using Stylish.Symbols;
 
-namespace Stylish;
+namespace Stylish.Controls;
 
 public class FluentIconExtension : FontIconExtension < FluentIcon, FluentSymbol >
 {
