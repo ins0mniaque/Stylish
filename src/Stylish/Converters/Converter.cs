@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace Stylish;
+namespace Stylish.Converters;
 
 public abstract class Converter
 {

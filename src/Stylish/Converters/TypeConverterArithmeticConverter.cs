@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Globalization;
 
-namespace Stylish;
+namespace Stylish.Converters;
 
 public abstract class TypeConverterArithmeticConverter < T > : ArithmeticConverter < T >
 {

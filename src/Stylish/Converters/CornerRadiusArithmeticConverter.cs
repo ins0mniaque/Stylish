@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace Stylish;
+namespace Stylish.Converters;
 
 public abstract class CornerRadiusArithmeticConverter : TypeConverterArithmeticConverter < CornerRadius > { }
 

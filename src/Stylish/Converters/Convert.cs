@@ -1,7 +1,6 @@
-namespace Stylish;
+namespace Stylish.Converters;
 
-[ System.Diagnostics.CodeAnalysis.SuppressMessage ( "Naming", "CA1724:Type names should not match namespaces", Justification = "None" ) ]
-public static class Converters
+public static class Convert
 {
     public static CornerRadiusScaleConverter LeftCornerRadius   { get; } = new ( ) { Operand = new ( 1.0, 0.0, 0.0, 1.0 ) };
     public static CornerRadiusScaleConverter TopCornerRadius    { get; } = new ( ) { Operand = new ( 1.0, 1.0, 0.0, 0.0 ) };

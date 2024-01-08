@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace Stylish;
+namespace Stylish.Converters;
 
 public abstract class DoubleArithmeticConverter : ArithmeticConverter < double >
 {

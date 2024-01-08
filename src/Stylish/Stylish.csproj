@@ -26,6 +26,10 @@
       <_Parameter1>urn:stylish:schema</_Parameter1>
       <_Parameter2>Stylish.Controls</_Parameter2>
     </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Windows.Markup.XmlnsDefinition">
+      <_Parameter1>urn:stylish:schema</_Parameter1>
+      <_Parameter2>Stylish.Converters</_Parameter2>
+    </AssemblyAttribute>
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)' == 'Release'">

@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ß="clr-namespace:Stylish">
+                    xmlns:ß="clr-namespace:Stylish"
+                    xmlns:ßx="clr-namespace:Stylish.Converters">
 
     <Style x:Key="Control.FocusVisualStyle">
         <Setter Property="Control.Template">
@@ -95,7 +96,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <ß:DoubleAddConverter x:Key="CheckBox.IconSize.Converter" Operand="1" />
+    <ßx:DoubleAddConverter x:Key="CheckBox.IconSize.Converter" Operand="1" />
 
     <Style x:Key="CheckBox.Style" TargetType="CheckBox" BasedOn="{StaticResource Focusable.Style}">
         <Setter Property="Background"               Value="{DynamicResource {x:Static ß:SystemTheme.WindowKey}}" />
@@ -134,7 +135,7 @@
             <Border x:Name="IconButton"
                     Grid.Column="1"
                     Background="Transparent"
-                    Margin="{TemplateBinding Padding, Converter={x:Static ß:Converters.RightThickness}}"
+                    Margin="{TemplateBinding Padding, Converter={x:Static ßx:Convert.RightThickness}}"
                     Padding="8"
                     VerticalAlignment="Center"
                     CornerRadius="{TemplateBinding ß:Element.CornerRadius}">
@@ -218,7 +219,7 @@
                 <Setter TargetName="Content" Property="BorderThickness"
                         Value="{Binding BorderThickness,
                                         RelativeSource={RelativeSource TemplatedParent},
-                                        Converter={x:Static ß:Converters.TopThickness}}" />
+                                        Converter={x:Static ßx:Convert.TopThickness}}" />
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
