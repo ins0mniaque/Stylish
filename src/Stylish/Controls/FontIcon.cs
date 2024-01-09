@@ -109,20 +109,20 @@ public class FontIcon : IconElement
                                    VisualTreeHelper.GetDpi ( this ).PixelsPerDip );
     }
 
-    private FormattedText? foregroundText;
+    private FormattedText? formattedGlyph;
 
     protected override Size MeasureIcon ( )
     {
         var iconSize = default ( Size );
 
-        foregroundText = null;
+        formattedGlyph = null;
         if ( Glyph is not null && Foreground is not null )
-            foregroundText = FormatText ( Glyph, FontFamily, Foreground );
+            formattedGlyph = FormatText ( Glyph, FontFamily, Foreground );
 
-        if ( foregroundText is not null )
+        if ( formattedGlyph is not null )
         {
-            iconSize.Width  = Math.Max ( iconSize.Width,  foregroundText.WidthIncludingTrailingWhitespace );
-            iconSize.Height = Math.Max ( iconSize.Height, foregroundText.Height );
+            iconSize.Width  = Math.Max ( iconSize.Width,  formattedGlyph.WidthIncludingTrailingWhitespace );
+            iconSize.Height = Math.Max ( iconSize.Height, formattedGlyph.Height );
         }
 
         return iconSize;
@@ -132,9 +132,10 @@ public class FontIcon : IconElement
     {
         ArgumentNullException.ThrowIfNull ( drawingContext );
 
-        drawingContext.DrawText ( foregroundText, default );
+        if ( formattedGlyph is not null )
+            drawingContext.DrawText ( formattedGlyph, default );
 
-        foregroundText = null;
+        formattedGlyph = null;
     }
 }
 
